@@ -43,3 +43,63 @@
 //🔹 33. char *tgoto(const char *cap, int col, int row); // Returns a string to position the cursor.
 //🔹 34. int tputs(const char *str, int affcnt, int (*putc)(int)); // Outputs a string with padding.
 
+//🔹readline()
+//🔹   ↓
+//🔹tokenizer → linked list of tokens
+//🔹   ↓
+//🔹parser → linked list of commands
+//🔹   ↓
+//🔹executor → run commands
+//🔹   ↓
+//🔹free everything
+
+
+//🔹readline()
+//🔹    ↓
+//🔹tokenize()
+//🔹    ↓
+//🔹new_token()
+//🔹    ↓
+//🔹add_token_back()
+//🔹    ↓
+//🔹linked list built
+//🔹    ↓
+//🔹parser uses list
+
+
+//🔹while (not end of string)
+//🔹{
+//🔹    skip spaces
+//🔹    if operator → create operator token
+//🔹    else → create word token
+//🔹}
+
+
+//🔹readline()
+//🔹    ↓
+//🔹 tokenize()  ← YOU BUILT THIS
+//🔹    ↓
+//🔹parse()     ← NEXT STEP
+//🔹    ↓
+//🔹 execute()
+
+
+
+//🔹 Loop through string.
+//🔹 Ignore spaces.
+//🔹 If character is operator:
+//🔹    create operator token.
+//🔹 Else:
+//🔹    collect characters until space or operator.
+//🔹 Repeat.
+
+
+
+//🔹 Question 1:
+//🔹 What is my input?
+//🔹 char *input
+//🔹 Question 2:
+//🔹 What is my output?
+//🔹 linked list of tokens
+//🔹 Question 3:
+//🔹 How do I go from input to output?

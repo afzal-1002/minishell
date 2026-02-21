@@ -1,44 +1,57 @@
-#include "minishell.h"
+#include "includes/minishell.h"
 
 int	main(void)
 {
-	char	buffer[BUFFER_SIZE];
 	char	*input;
-	char	*args[] = {"ls", NULL};
-	pid_t	pid;
+	t_token	*tokens;
+	t_cmd	*parsed_cmd;
+	int		i;
+	t_redir	*redirs;
 
-	printf("Welcome to minishell :$ ");
-	fgets(buffer, BUFFER_SIZE, stdin);
-	if( buffer[0] == '\0' || buffer[0] == '\n')
+	while (1)
 	{
-		printf("Error reading input.\n");
-		return (1);
+		input = readline("minishell$ ");
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (*input)
+			add_history(input);
+		tokens = tokenize(input);
+		printf("\n--- TOKENS ---\n");
+		print_tokens(tokens);
+		printf("--------------\n\n");
+		parsed_cmd = parse_token(tokens);
+		if (parsed_cmd)
+		{
+			printf("Parsed Command:\n");
+			while (parsed_cmd)
+			{
+				printf("  Command: %d\n", parsed_cmd->index);
+				if (parsed_cmd->args)
+				{
+					i = 0;
+					while (parsed_cmd->args[i])
+					{
+						printf("  Arg[%d]: %s\n", i, parsed_cmd->args[i]);
+						i++;
+					}
+				}
+				redirs = parsed_cmd->redirs;
+				while (redirs)
+				{
+					printf("  Redirection: %s -> %s\n",
+						get_type_name(redirs->type), redirs->file);
+					redirs = redirs->next;
+				}
+				parsed_cmd = parsed_cmd->next;
+			}
+			printf("\n");
+		}
+		free_tokens(tokens);
+		free_cmd(parsed_cmd);
+		free(input);
 	}
-	input = buffer;
-
-	printf("You entered: %s\n", input);
-	printf("Process ID: %d\n", getpid());
-	if (input == NULL)
-	{
-		printf("Exiting minishell...\n");
-		return (0);
-	}
-	printf(" Fork  %d \n", fork());
-	pid = fork();
-	if (pid == 0)
-	{
-		printf("Child Process ID: %d\n", getpid());
-		execvp(input, args);
-	}
-	else if (pid ==4)
-	{
-		perror("Fork failed");
-		return (1);
-	}else if (pid > 0)
-	{
-		printf("Parent Process ID: %d\n", getpid());
-	}
-	
-	wait(NULL);
 	return (0);
 }
