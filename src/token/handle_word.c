@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:55 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 00:01:53 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/02/23 00:12:24 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	handle_quotes(char *input, int i)
 
 int	handle_word(char *input, int i, t_token **head)
 {
-	int start;
-	char *value;
-	t_token *new;
+	int		start;
+	char	*value;
+	t_token	*new;
 
 	start = i;
 	while (input[i] && input[i] != ' ' && !is_operator(input[i]))
