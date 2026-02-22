@@ -1,6 +1,18 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   is_operator.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/22 23:23:52 by mafzal            #+#    #+#             */
+/*   Updated: 2026/02/22 23:27:02 by mafzal           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
- int	is_operator(char c)
+#include "../includes/minishell.h"
+
+int	is_operator(char c)
 {
 	return (c == '|' || c == '<' || c == '>');
 }

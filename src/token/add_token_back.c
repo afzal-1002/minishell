@@ -1,4 +1,16 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_token_back.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/22 23:24:11 by mafzal            #+#    #+#             */
+/*   Updated: 2026/02/22 23:24:12 by mafzal           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
 
 void	add_token_back(t_token **head, t_token *new)
 {
