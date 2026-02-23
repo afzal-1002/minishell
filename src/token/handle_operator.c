@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 14:00:18 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/02/23 16:07:25 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int	handle_operator(char *input, int i, t_token **head)
 {
-	t_token_type	type;
 	t_token			*new;
+	t_token_type	type;
 	char			*value;
 	int				len;
 

@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/22 23:24:16 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/02/23 16:05:18 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,17 @@
 
 int	main(void)
 {
+	pid_t	pid;
 	char	*input;
 	t_token	*tokens;
 	t_cmd	*parsed_cmd;
-	int		i;
-	t_redir	*redirs;
+	char	*env[] = {"PATH=/usr/local/bin:/usr/bin:/bin", "HOME=/home/mafzal",
+			"USER=mafzal", "SHELL=/bin/bash", NULL};
 
+	// t_redir	*redirs;
+	// int		i;
+	// int		pid_id;
+	pid = fork();
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -44,20 +49,29 @@ int	main(void)
 				ft_printf("  Command: %d\n", parsed_cmd->index);
 				if (parsed_cmd->args)
 				{
-					i = 0;
-					while (parsed_cmd->args[i])
+					if (pid == 0)
 					{
-						printf("  Arg[%d]: %s\n", i, parsed_cmd->args[i]);
-						i++;
+						printf("I am CHILD\n");
+						printf("My Parent PID: %d\n", getppid());
+						execve("/bin/ls", parsed_cmd->args, env);
+						perror("execve");
 					}
+					else
+						wait(NULL);
+					// i = 0;
+					// while (parsed_cmd->args[i])
+					// {
+					// 	printf("  Arg[%d]: %s\n", i, parsed_cmd->args[i]);
+					// 	i++;
+					// }
 				}
-				redirs = parsed_cmd->redirs;
-				while (redirs)
-				{
-					ft_printf("  Redirection: %s -> %s\n",
-						get_type_name(redirs->type), redirs->file);
-					redirs = redirs->next;
-				}
+				// redirs = parsed_cmd->redirs;
+				// while (redirs)
+				// {
+				// 	ft_printf("  Redirection: %s -> %s\n",
+				// 		get_type_name(redirs->type), redirs->file);
+				// 	redirs = redirs->next;
+				// }
 				parsed_cmd = parsed_cmd->next;
 			}
 			ft_printf("\n");
