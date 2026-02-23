@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 00:12:34 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/02/23 14:00:18 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	handle_operator(char *input, int i, t_token **head)
 	int				len;
 
 	type = get_operator_type(input, i);
-	if (isdigit(input[i]) && input[i + 1] == '>')
+	if (ft_isdigit(input[i]) && input[i + 1] == '>')
 	{
 		if (input[i + 2] == '>')
 			len = 3;
