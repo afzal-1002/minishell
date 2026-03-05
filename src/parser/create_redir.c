@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:30 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/22 23:24:31 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/05 19:52:28 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_redir	*create_redir(int fd, char *file, t_token_type type)
 
 	new = malloc(sizeof(t_redir));
 	if (!new)
-		return (NULL);
+		return (NULL);	
 	new->fd = fd;
 	new->file = ft_strdup(file);
 	if (!new->file)

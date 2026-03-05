@@ -6,26 +6,37 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 16:05:18 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/05 20:57:38 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "includes/minishell.h"
 
-int	main(void)
+void	startloop(t_global *global);
+void	createglobal(t_global *global, char **envp);
+
+int	main(int argc, char **argv, char **envp)
 {
-	pid_t	pid;
+	t_global	global;
+
+	(void)argc;
+	(void)argv;
+	createglobal(&global, envp);
+	startloop(&global);
+	return (0);
+}
+
+void	startloop(t_global *global)
+{
 	char	*input;
 	t_token	*tokens;
 	t_cmd	*parsed_cmd;
-	char	*env[] = {"PATH=/usr/local/bin:/usr/bin:/bin", "HOME=/home/mafzal",
-			"USER=mafzal", "SHELL=/bin/bash", NULL};
+	t_cmd	*tmp_cmd;
+	t_redir	*redirs;
+	int		i;
 
-	// t_redir	*redirs;
-	// int		i;
-	// int		pid_id;
-	pid = fork();
+	(void)global;
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -37,48 +48,44 @@ int	main(void)
 		if (*input)
 			add_history(input);
 		tokens = tokenize(input);
-		ft_printf("\n--- TOKENS ---\n");
-		print_tokens(tokens);
-		ft_printf("--------------\n\n");
 		parsed_cmd = parse_token(tokens);
+		tmp_cmd = parsed_cmd;
 		if (parsed_cmd)
 		{
 			ft_printf("Parsed Command:\n");
-			while (parsed_cmd)
+			while (tmp_cmd)
 			{
-				ft_printf("  Command: %d\n", parsed_cmd->index);
-				if (parsed_cmd->args)
+				ft_printf("  Command: %d\n", tmp_cmd->index);
+				if (tmp_cmd->args)
 				{
-					if (pid == 0)
+					i = 0;
+					while (tmp_cmd->args[i])
 					{
-						printf("I am CHILD\n");
-						printf("My Parent PID: %d\n", getppid());
-						execve("/bin/ls", parsed_cmd->args, env);
-						perror("execve");
+						printf("  Arg[%d]: %s\n", i, tmp_cmd->args[i]);
+						i++;
 					}
-					else
-						wait(NULL);
-					// i = 0;
-					// while (parsed_cmd->args[i])
-					// {
-					// 	printf("  Arg[%d]: %s\n", i, parsed_cmd->args[i]);
-					// 	i++;
-					// }
 				}
-				// redirs = parsed_cmd->redirs;
-				// while (redirs)
-				// {
-				// 	ft_printf("  Redirection: %s -> %s\n",
-				// 		get_type_name(redirs->type), redirs->file);
-				// 	redirs = redirs->next;
-				// }
-				parsed_cmd = parsed_cmd->next;
+				redirs = tmp_cmd->redirs;
+				while (redirs)
+				{
+					ft_printf("  Redirection: %s -> %s\n",
+						get_type_name(redirs->type), redirs->file);
+					redirs = redirs->next;
+				}
+				tmp_cmd = tmp_cmd->next;
 			}
-			ft_printf("\n");
 		}
 		free_tokens(tokens);
 		free_cmd(parsed_cmd);
 		free(input);
 	}
-	return (0);
+}
+
+void	createglobal(t_global *global, char **envp)
+{
+	t_env node;
+	node = env_set(global, 0, 0);
+	global->env = &node;
+	global->exit_status = 0;
+	global->signal_received = 0;
 }

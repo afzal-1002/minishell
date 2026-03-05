@@ -29,6 +29,9 @@ SRC = \
 	src/parser/create_redir.c \
 	src/parser/redir_add_back.c \
 	src/parser/redir_new.c \
+	src/parser/handle_redirection.c \
+	src/parser/handle_pipe.c \
+	src/parser/is_redirection.c \
 	src/token/add_token_back.c \
 	src/token/free_tokens.c \
 	src/token/get_operator_type.c \
@@ -40,9 +43,21 @@ SRC = \
 	src/token/print_tokens.c \
 	src/token/skip_spaces.c \
 	src/token/tokenizer.c \
-	src/parser/handle_redirection.c \
-    src/parser/handle_pipe.c \
-    src/parser/is_redirection.c
+	src/builtins/builtin_cd.c \
+	src/builtins/builtin_dispatch.c \
+	src/builtins/builtin_echo.c \
+	src/builtins/builtin_exit.c \
+	src/builtins/builtin_export.c \
+	src/builtins/builtin_simple.c \
+	src/execution/env_ops.c \
+	src/execution/env_set.c \
+	src/execution/env_utils.c \
+	src/execution/exec_cmd.c \
+	src/execution/find_cmd.c \
+	src/execution/pipe_exe.c \
+	src/execution/free_split.c \
+	src/execution/redir.c
+	
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
