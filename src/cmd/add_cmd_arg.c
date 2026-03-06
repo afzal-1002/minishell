@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_pipe.c                                      :+:      :+:    :+:   */
+/*   add_cmd_arg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:37:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 08:56:18 by mafzal           ###   ########.fr       */
+/*   Created: 2026/02/22 23:24:48 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/06 08:49:13 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_cmd	*handle_pipe(t_cmd *cmd)
+void	add_cmd_arg(t_cmd *cmd, char *value)
 {
-	t_cmd	*new_cmd;
+	char	**new_args;
+	int		i;
 
-	new_cmd = create_cmd();
-	if (!new_cmd)
-		return (NULL);
-	new_cmd->index = cmd->index + 1;
-	cmd->next = new_cmd;
-	return (new_cmd);
+	i = 0;
+	while (cmd->args && cmd->args[i])
+		i++;
+	new_args = malloc(sizeof(char *) * (i + 2));
+	if (!new_args)
+		return ;
+	i = 0;
+	while (cmd->args && cmd->args[i])
+	{
+		new_args[i] = cmd->args[i];
+		i++;
+	}
+	new_args[i] = strdup(value);
+	new_args[i + 1] = NULL;
+	free(cmd->args);
+	cmd->args = new_args;
 }

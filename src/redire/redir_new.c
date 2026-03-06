@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_pipe.c                                      :+:      :+:    :+:   */
+/*   redir_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:37:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 08:56:18 by mafzal           ###   ########.fr       */
+/*   Created: 2026/02/22 23:24:21 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/05 22:54:15 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_cmd	*handle_pipe(t_cmd *cmd)
+void	redir_new(t_cmd *cmd, t_token_type type, char *op, char *value)
 {
-	t_cmd	*new_cmd;
+	t_redir	*new;
 
-	new_cmd = create_cmd();
-	if (!new_cmd)
-		return (NULL);
-	new_cmd->index = cmd->index + 1;
-	cmd->next = new_cmd;
-	return (new_cmd);
+	new = malloc(sizeof(t_redir));
+	if (!new)
+		return ;
+	new->type = type;
+	new->file = ft_strdup(value);
+	new->next = NULL;
+	if ((type == T_FD_REDIR_OUT || type == T_FD_REDIR_APPEND) && isdigit(op[0]))
+	{
+		new->fd = op[0] - '0';
+	}
+	else if (type == T_REDIR_IN || type == T_HEREDOC)
+		new->fd = 0;
+	else
+		new->fd = 1;
+	redir_add_back(&cmd->redirs, new);
 }

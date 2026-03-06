@@ -22,16 +22,15 @@ SRC = \
 	src/main.c \
 	src/init/init_shell.c \
 	src/init/setup.c \
-	src/cmd/add_arg.c \
+	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
+	src/cmd/exec_cmd.c \
+	src/cmd/find_cmd.c \
+	src/cmd/fork_cmd.c \
 	src/cmd/free_cmd.c \
 	src/parser/parse_token.c \
-	src/parser/create_redir.c \
-	src/parser/redir_add_back.c \
-	src/parser/redir_new.c \
 	src/parser/handle_redirection.c \
 	src/parser/handle_pipe.c \
-	src/parser/is_redirection.c \
 	src/token/add_token_back.c \
 	src/token/free_tokens.c \
 	src/token/get_operator_type.c \
@@ -49,15 +48,30 @@ SRC = \
 	src/builtins/builtin_exit.c \
 	src/builtins/builtin_export.c \
 	src/builtins/builtin_simple.c \
-	src/execution/env_ops.c \
-	src/execution/env_set.c \
-	src/execution/env_utils.c \
-	src/execution/exec_cmd.c \
-	src/execution/find_cmd.c \
-	src/execution/pipe_exe.c \
-	src/execution/free_split.c \
-	src/execution/redir.c
-	
+	src/env/env_append.c \
+	src/env/env_find.c \
+	src/env/env_join_kv.c \
+	src/env/env_list_len.c \
+	src/env/env_new_node.c \
+	src/env/env_remove.c \
+	src/env/env_set.c \
+	src/env/env_update.c \
+	src/env/find_path_env.c \
+	src/env/free_env_arr.c \
+	src/env/rebuild_env.c \
+	src/execution/is_valid_identifier.c \
+	src/execution/wait_for_children.c \
+	src/pipe/advance_pipe.c \
+	src/pipe/open_pipe.c \
+	src/pipe/pipe_exe.c \
+	src/redire/apply_redir_in.c \
+	src/redire/apply_redir_out.c \
+	src/redire/apply_redirs.c \
+	src/redire/create_redir.c \
+	src/redire/is_redirection.c \
+	src/redire/redir_add_back.c \
+	src/redire/redir_new.c \
+	src/utils/free_array.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 

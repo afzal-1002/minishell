@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/22 23:45:33 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 08:49:43 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cmd	*parse_token(t_token *tokens)
 	while (current)
 	{
 		if (current->type == T_WORD)
-			add_arg(cmd, current->value);
+			add_cmd_arg(cmd, current->value);
 		else if (is_redirection(current->type))
 			current = handle_redirection(cmd, current);
 		else if (current->type == T_PIPE)
