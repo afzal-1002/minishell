@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/06 14:40:17 by mafzal           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -15,9 +27,9 @@
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <signal.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -53,9 +65,9 @@ typedef struct s_cmd
 {
 	int				index;
 	char			**args;
-	t_redir			*redirs;
 	int				pipe_in;
 	int				pipe_out;
+	t_redir			*redirs;
 	struct s_cmd	*next;
 }					t_cmd;
 

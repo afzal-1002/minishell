@@ -6,11 +6,21 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:34 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:48:35 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 14:37:00 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static char	*cd_get_env_value(t_env *env_node, const char *err_msg)
+{
+	if (!env_node || !env_node->value)
+	{
+		ft_putstr_fd(err_msg, STDERR_FILENO);
+		return (NULL);
+	}
+	return (env_node->value);
+}
 
 char	*cd_resolve_path(t_cmd *cmd, t_global *global)
 {
@@ -21,24 +31,17 @@ char	*cd_resolve_path(t_cmd *cmd, t_global *global)
 	if (!arg || ft_strncmp(arg, "~", 2) == 0)
 	{
 		node = env_find(global->env, "HOME");
-		if (!node || !node->value)
-		{
-			ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
-			return (NULL);
-		}
-		return (node->value);
+		return (cd_get_env_value(node, "cd: HOME not set\n"));
 	}
 	if (ft_strncmp(arg, "-", 2) == 0)
 	{
 		node = env_find(global->env, "OLDPWD");
-		if (!node || !node->value)
-		{
-			ft_putstr_fd("cd: OLDPWD not set\n", STDERR_FILENO);
+		arg = cd_get_env_value(node, "cd: OLDPWD not set\n");
+		if (!arg)
 			return (NULL);
-		}
-		ft_putstr_fd(node->value, STDOUT_FILENO);
+		ft_putstr_fd(arg, STDOUT_FILENO);
 		ft_putchar_fd('\n', STDOUT_FILENO);
-		return (node->value);
+		return (arg);
 	}
 	return (arg);
 }

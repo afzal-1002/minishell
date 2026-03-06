@@ -6,12 +6,11 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:26 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/05 20:10:04 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 14:37:41 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 t_token_type	get_operator_type(char *str, int i)
 {
