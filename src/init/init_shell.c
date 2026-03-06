@@ -6,14 +6,46 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 00:12:44 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 21:09:54 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "ft_printf.h"
 
-void	init_shell(const char *name)
+void	init_shell(t_global *global)
 {
-	ft_printf("init Shell %s ", name);
+	char	*input;
+	t_token	*tokens;
+	t_cmd	*parsed_cmd;
+
+	setup_signals();
+	while (1)
+	{
+		input = readline("minishell$ ");
+		if (!input)
+		{
+			ft_printf("exit\n");
+			break ;
+		}
+		if (*input)
+			add_history(input);
+		tokens = tokenize(input);
+		if (!tokens)
+		{
+			free(input);
+			continue ;
+		}
+		if (tokens)
+			global->tokens = tokens;
+		parsed_cmd = parse_token(tokens);
+		if (parsed_cmd)
+		{
+			global->cmds = parsed_cmd;
+			execute(parsed_cmd, global);
+		}
+		free_tokens(tokens);
+		free_cmd(parsed_cmd);
+		free(input);
+	}
 }

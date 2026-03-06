@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_array.c                                       :+:      :+:    :+:   */
+/*   free_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 21:02:55 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/06 21:01:45 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/06 21:01:53 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_array(char **arr)
+void	free_env(t_env *env)
 {
-	int	i;
+	t_env	*temp;
 
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
+	while (env)
 	{
-		free(arr[i]);
-		i++;
+		temp = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = temp;
 	}
-	free(arr);
 }

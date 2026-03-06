@@ -6,17 +6,17 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:34 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:37:00 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 15:59:46 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*cd_get_env_value(t_env *env_node, const char *err_msg)
+char	*cd_get_env_value(t_env *env_node, const char *err_msg)
 {
 	if (!env_node || !env_node->value)
 	{
-		ft_putstr_fd(err_msg, STDERR_FILENO);
+		ft_putstr_fd((char *)err_msg, STDERR_FILENO);
 		return (NULL);
 	}
 	return (env_node->value);

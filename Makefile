@@ -61,6 +61,7 @@ SRC = \
 	src/env/find_path_env.c \
 	src/env/free_env_arr.c \
 	src/env/rebuild_env.c \
+	src/env/free_env.c \
 	src/execution/wait_for_children.c \
 	src/pipe/advance_pipe.c \
 	src/pipe/open_pipe.c \
@@ -74,7 +75,10 @@ SRC = \
 	src/redire/redir_add_back.c \
 	src/redire/redir_new.c \
 	src/signals/signals.c \
-	src/utils/free_array.c
+	src/utils/free_array.c \
+	src/utils/free_all.c \
+	src/init/quit.c
+
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 

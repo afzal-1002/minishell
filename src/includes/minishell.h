@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:40:17 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 21:07:22 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # endif
 
 # include "../../utils/libft/libft.h"
+# include "ft_printf.h"
 # include <ctype.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -81,6 +82,8 @@ typedef struct s_env
 typedef struct s_global
 {
 	t_env			*env;
+	t_cmd			*cmds;
+	t_token			*tokens;
 	int				exit_status;
 	int				signal_received;
 }					t_global;
@@ -113,7 +116,7 @@ t_cmd				*handle_pipe(t_cmd *cmd);
 int					handle_quotes(char *input, int i);
 
 void				setup(const char *name);
-void				init_shell(const char *name);
+void				init_shell(t_global *global);
 void				createglobal(t_global *global, char **envp);
 void				setup_signals(void);
 
@@ -127,6 +130,7 @@ void				env_update(t_env *node, char *value);
 t_env				*env_new_node(char *key, char *value);
 void				env_append(t_global *global, t_env *node);
 t_env				*env_set(t_global *global, char *key, char *value);
+void				free_env(t_env *env);
 
 /* env_utils.c */
 int					env_list_len(t_env *env);
@@ -164,6 +168,7 @@ int					is_builtin(char *name);
 int					run_builtin(t_cmd *cmd, t_global *global);
 int					run_builtin_with_redirs(t_cmd *cmd, t_global *global);
 int					execute(t_cmd *cmds, t_global *global);
+char				*cd_get_env_value(t_env *env_node, const char *err_msg);
 
 /* builtin_simple.c */
 int					builtin_env(t_global *global);
@@ -191,4 +196,6 @@ int					is_numeric(char *s);
 int					builtin_exit(t_cmd *cmd, t_global *global);
 
 void				free_array(char **dirs);
+void				quit(t_global *global);
+void				free_all(t_global *global);
 #endif

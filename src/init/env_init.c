@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:50:13 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:50:15 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 20:41:01 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@ void	createglobal(t_global *global, char **envp)
 	global->env = NULL;
 	global->exit_status = 0;
 	global->signal_received = 0;
+	global->cmds = NULL;
+	global->tokens = NULL;
 	init_env_from_envp(global, envp);
 }

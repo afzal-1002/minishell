@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:48:47 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 20:16:59 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	run_builtin(t_cmd *cmd, t_global *global)
 		return (builtin_unset(cmd, global));
 	if (ft_strncmp(name, "env", 4) == 0)
 		return (builtin_env(global));
-	if (ft_strncmp(name, "exit", 5) == 0)
+	if (ft_strncmp(name, "exit", 4) == 0)
 		return (builtin_exit(cmd, global));
 	return (1);
 }
