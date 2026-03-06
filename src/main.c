@@ -6,16 +6,14 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:14:00 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/06 10:00:06 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "includes/minishell.h"
 
-void		startloop(t_global *global);
-void		createglobal(t_global *global, char **envp);
-static void	init_env_from_envp(t_global *global, char **envp);
+void	startloop(t_global *global);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,6 +35,7 @@ void	startloop(t_global *global)
 	t_redir	*redirs;
 	int		i;
 
+	setup_signals();
 	(void)global;
 	while (1)
 	{
@@ -79,38 +78,5 @@ void	startloop(t_global *global)
 		free_tokens(tokens);
 		free_cmd(parsed_cmd);
 		free(input);
-	}
-}
-
-void	createglobal(t_global *global, char **envp)
-{
-	global->env = NULL;
-	global->exit_status = 0;
-	global->signal_received = 0;
-	init_env_from_envp(global, envp);
-}
-
-static void	init_env_from_envp(t_global *global, char **envp)
-{
-	int i;
-	char *eq;
-	char *key;
-
-	i = 0;
-	if (!envp)
-		return ;
-	while (envp[i])
-	{
-		eq = ft_strchr(envp[i], '=');
-		if (eq)
-		{
-			key = ft_substr(envp[i], 0, eq - envp[i]);
-			if (key)
-			{
-				env_set(global, key, eq + 1);
-				free(key);
-			}
-		}
-		i++;
 	}
 }

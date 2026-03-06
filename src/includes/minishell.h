@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -101,6 +102,8 @@ int					handle_quotes(char *input, int i);
 
 void				setup(const char *name);
 void				init_shell(const char *name);
+void				createglobal(t_global *global, char **envp);
+void				setup_signals(void);
 
 /* env_ops.c */
 t_env				*env_find(t_env *env, char *key);
@@ -127,6 +130,7 @@ char				*find_command(char *cmd, t_env *env);
 /* redir.c */
 int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
+int					apply_heredoc(t_redir *redir);
 int					apply_redirs(t_cmd *cmd);
 
 /* exec_cmd.c */

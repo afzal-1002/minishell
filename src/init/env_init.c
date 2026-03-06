@@ -1,28 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_array.c                                       :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:51:59 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/06 09:50:13 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/06 09:50:15 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_array(char **arr)
+static void	init_env_from_envp(t_global *global, char **envp)
 {
-	int	i;
+	int		i;
+	char	*eq;
+	char	*key;
 
-	if (!arr)
-		return ;
 	i = 0;
-	while (arr[i])
+	if (!envp)
+		return ;
+	while (envp[i])
 	{
-		free(arr[i]);
+		eq = ft_strchr(envp[i], '=');
+		if (eq)
+		{
+			key = ft_substr(envp[i], 0, eq - envp[i]);
+			if (key)
+			{
+				env_set(global, key, eq + 1);
+				free(key);
+			}
+		}
 		i++;
 	}
-	free(arr);
+}
+
+void	createglobal(t_global *global, char **envp)
+{
+	global->env = NULL;
+	global->exit_status = 0;
+	global->signal_received = 0;
+	init_env_from_envp(global, envp);
 }

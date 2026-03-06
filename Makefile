@@ -22,6 +22,7 @@ SRC = \
 	src/main.c \
 	src/init/init_shell.c \
 	src/init/setup.c \
+	src/init/env_init.c \
 	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
 	src/cmd/exec_cmd.c \
@@ -56,10 +57,10 @@ SRC = \
 	src/env/env_remove.c \
 	src/env/env_set.c \
 	src/env/env_update.c \
+	src/env/is_valid_identifier.c \
 	src/env/find_path_env.c \
 	src/env/free_env_arr.c \
 	src/env/rebuild_env.c \
-	src/execution/is_valid_identifier.c \
 	src/execution/wait_for_children.c \
 	src/pipe/advance_pipe.c \
 	src/pipe/open_pipe.c \
@@ -67,10 +68,12 @@ SRC = \
 	src/redire/apply_redir_in.c \
 	src/redire/apply_redir_out.c \
 	src/redire/apply_redirs.c \
+	src/redire/heredoc.c \
 	src/redire/create_redir.c \
 	src/redire/is_redirection.c \
 	src/redire/redir_add_back.c \
 	src/redire/redir_new.c \
+	src/signals/signals.c \
 	src/utils/free_array.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

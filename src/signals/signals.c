@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   advance_pipe.c                                     :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 09:50:44 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:50:45 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/06 09:51:45 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/06 09:51:47 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	advance_pipe(int prev_fd, int *pipe_fd, t_cmd *cmd)
+static void	sigint_handler(int sig)
 {
-	if (prev_fd != -1)
-		close(prev_fd);
-	if (cmd->next)
-	{
-		close(pipe_fd[1]);
-		return (pipe_fd[0]);
-	}
-	return (-1);
+	(void)sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	setup_signals(void)
+{
+	struct sigaction	sa_int;
+
+	sa_int.sa_handler = sigint_handler;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
