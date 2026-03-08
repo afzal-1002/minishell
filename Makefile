@@ -29,6 +29,7 @@ SRC = \
 	src/cmd/find_cmd.c \
 	src/cmd/fork_cmd.c \
 	src/cmd/free_cmd.c \
+	src/cmd/print_cmd.c \
 	src/parser/parse_token.c \
 	src/parser/handle_redirection.c \
 	src/parser/handle_pipe.c \

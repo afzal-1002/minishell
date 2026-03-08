@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:26 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:37:41 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/08 18:43:52 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ t_token_type	get_operator_type(char *str, int i)
 		return (T_REDIR_APPEND);
 	if (str[i] == '>')
 		return (T_REDIR_OUT);
+			if (str[i] == '+' && str[i + 1] && str[i + 1] == '+')
+		return (T_REDIR_APPEND);
+			if (str[i] == '$' && str[i + 1] && str[i + 1] == '$')
+		return (T_REDIR_APPEND);
 	return (T_WORD);
 }

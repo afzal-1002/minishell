@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 21:07:22 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/08 19:18:32 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_token_type
 	T_HEREDOC,
 	T_FD_REDIR_OUT,
 	T_FD_REDIR_APPEND
+	T_BUILTIN
 }					t_token_type;
 
 typedef struct s_token
@@ -198,4 +199,5 @@ int					builtin_exit(t_cmd *cmd, t_global *global);
 void				free_array(char **dirs);
 void				quit(t_global *global);
 void				free_all(t_global *global);
+void				print_cmd(t_cmd *cmd);
 #endif

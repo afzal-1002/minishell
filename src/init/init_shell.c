@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 21:09:54 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/08 19:04:26 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_shell(t_global *global)
 	t_token	*tokens;
 	t_cmd	*parsed_cmd;
 
+	// char	**cmd_name;
 	setup_signals();
 	while (1)
 	{
@@ -42,7 +43,9 @@ void	init_shell(t_global *global)
 		if (parsed_cmd)
 		{
 			global->cmds = parsed_cmd;
-			execute(parsed_cmd, global);
+			print_cmd(parsed_cmd);
+			print_tokens(tokens);
+			// execute(parsed_cmd, global);
 		}
 		free_tokens(tokens);
 		free_cmd(parsed_cmd);
