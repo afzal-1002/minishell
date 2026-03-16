@@ -1,0 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_operator_type.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/22 23:23:26 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/11 18:36:32 by mgolasze         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
+
+t_token_type	get_operator_type(char *str, int i)
+{
+	if (ft_isdigit(str[i]) && str[i + 1] == '>' && str[i + 2] == '>')
+		return (T_FD_REDIR_APPEND);
+	if (ft_isdigit(str[i]) && str[i + 1] == '>')
+		return (T_FD_REDIR_OUT);
+	if (str[i] == '|')
+		return (T_PIPE);
+	if (str[i] == '<' && str[i] && str[i + 1] == '<')
+		return (T_HEREDOC);
+	if (str[i] == '<')
+		return (T_REDIR_IN);
+	if (str[i] == '>' && str[i + 1] && str[i + 1] == '>')
+		return (T_REDIR_APPEND);
+	if (str[i] == '>')
+		return (T_REDIR_OUT);
+	return (T_WORD);
+}

@@ -1,0 +1,105 @@
+#include <curses.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <term.h>
+#include <unistd.h>
+
+// 🔹 1. char *readline(const char *prompt); // Displays a prompt and reads user input from terminal.
+// 🔹 2. int rl_on_new_line(void); // Tells readline that we moved to a new line.
+// 🔹 3. int rl_redisplay(void); Refreshes/redraws the current input line.
+// 🔹 4. void add_history(char *s); // Adds a string to the history list.
+// 🔹 5. void rl_clear_history(void); // Clears the history list.
+// 🔹 6. char *getcwd(char *buf, size_t size); // Gets current working directory.
+// 🔹 7. int chdir(const char *path); // Changes the current working directory.
+// 🔹 8. int stat(const char *restrict pathname, struct stat *restrict statbuf); // Gets file status.
+// 🔹 9. int lstat(const char *restrict pathname, struct stat *restrict statbuf); // Gets file status, does not follow symlinks.
+// 🔹 10. int fstat(int fd, struct stat *statbuf); // Gets file status based on file descriptor.
+// 🔹 11. DIR *opendir(const char *name); // Opens a directory
+// 🔹 12. struct dirent *readdir(DIR *dirp); // Reads a directory entry.
+// 🔹 13. int closedir(DIR *dirp); // Closes a directory
+// 🔹 14. char *strerror(int errnum); // Returns a string describing the error number.
+// 🔹 15. void perror(const char *s); // Prints an error message to stderr
+// 🔹 16. int isatty(int fd);// Checks if a file descriptor refers to a terminal.
+// 🔹 17. char *ttyname(int fd); // Returns the name of the terminal device.
+// 🔹 18. int ttyslot(void);// Returns the index of the terminal in the system list.
+// 🔹 19. int ioctl(int fd, unsigned long request, ...); // Performs device-specific input/output operations.
+// 🔹 20. char *getenv(const char *name);// Gets the value of an environment variable
+// 🔹 21. int tcsetattr(int fildes, int optional_actions, const struct termios *termios_p); // Sets terminal attributes.
+// 🔹 22. int tcgetattr(int fildes, struct termios *termios_p); // Gets terminal attributes.
+// 🔹 23. int tgetent(char *bp, const char *name); // Initializes the terminfo data base.
+// 🔹 24. int tgetflag(char *id); // Returns the boolean value of a terminfo capability.
+// 🔹 25. int tgetnum(char *id); // Returns the numeric value of a terminfo capability.
+// 🔹 26. char *tgetstr(char *id, char **area); // Returns the string value of a terminfo capability.
+// 🔹 27. char *tgoto(const char *cap, int col, int row); // Returns a string to position the cursor.
+// 🔹 28. int tputs(const char *str, int affcnt, int (*putc)(int)); // Outputs a string with padding.
+//🔹 29. int tgetent(char *bp, const char *name); 
+// Initializes the terminfo data base for the terminal type specified by name. Returns 1 on success,
+// 0 if the terminal type is not found,-1 if there is an error accessing the terminfo database.
+//🔹 30. int tgetflag(char *id); // Returns the boolean value of a terminfo capability.
+//🔹 31. int tgetnum(char *id); // Returns the numeric value of a terminfo capability.
+//🔹 32. char *tgetstr(char *id, char **area); // Returns the string value of a terminfo capability.
+//🔹 33. char *tgoto(const char *cap, int col, int row); // Returns a string to position the cursor.
+//🔹 34. int tputs(const char *str, int affcnt, int (*putc)(int)); // Outputs a string with padding.
+
+//🔹readline()
+//🔹   ↓
+//🔹tokenizer → linked list of tokens
+//🔹   ↓
+//🔹parser → linked list of commands
+//🔹   ↓
+//🔹executor → run commands
+//🔹   ↓
+//🔹free everything
+
+
+//🔹readline()
+//🔹    ↓
+//🔹tokenize()
+//🔹    ↓
+//🔹new_token()
+//🔹    ↓
+//🔹add_token_back()
+//🔹    ↓
+//🔹linked list built
+//🔹    ↓
+//🔹parser uses list
+
+
+//🔹while (not end of string)
+//🔹{
+//🔹    skip spaces
+//🔹    if operator → create operator token
+//🔹    else → create word token
+//🔹}
+
+
+//🔹readline()
+//🔹    ↓
+//🔹 tokenize()  ← YOU BUILT THIS
+//🔹    ↓
+//🔹parse()     ← NEXT STEP
+//🔹    ↓
+//🔹 execute()
+
+
+
+//🔹 Loop through string.
+//🔹 Ignore spaces.
+//🔹 If character is operator:
+//🔹    create operator token.
+//🔹 Else:
+//🔹    collect characters until space or operator.
+//🔹 Repeat.
+
+
+
+//🔹 Question 1:
+//🔹 What is my input?
+//🔹 char *input
+//🔹 Question 2:
+//🔹 What is my output?
+//🔹 linked list of tokens
+//🔹 Question 3:
+//🔹 How do I go from input to output?
