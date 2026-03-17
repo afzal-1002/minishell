@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 21:07:22 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/16 23:39:43 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 #  define PATH_MAX 4096
 # endif
 
+# include "../../utils/ft_printf/ft_printf.h"
 # include "../../utils/libft/libft.h"
-# include "ft_printf.h"
 # include <ctype.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -102,23 +102,38 @@ char				*get_type_name(t_token_type type);
 void				print_tokens(t_token *head);
 
 /* parser */
-t_cmd				*parse_token(t_token *tokens);
+t_cmd				*parse_token(t_token *tokens, t_global *global);
 t_cmd				*create_cmd(void);
 void				add_cmd_arg(t_cmd *cmd, char *value);
 t_redir				*create_redir(int fd, char *file, t_token_type type);
 void				redir_add_back(t_redir **head, t_redir *new);
 void				redir_new(t_cmd *cmd, t_token_type type, char *op,
 						char *value);
+char				*cmd_strappend(char *dst, const char *add);
 void				free_cmd(t_cmd *cmd);
 int					is_redirection(t_token_type type);
 t_token				*handle_redirection(t_cmd *cmd, t_token *current);
 t_cmd				*handle_pipe(t_cmd *cmd);
 int					handle_quotes(char *input, int i);
+char				*expand_word(const char *src, t_global *g);
 
 void				setup(const char *name);
 void				init_shell(t_global *global);
 void				createglobal(t_global *global, char **envp);
 void				setup_signals(void);
+void				expand_env_var(const char *src, int *i, char **out,
+						t_global *g);
+void				expand_exit_status(int *i, char **out, t_global *g);
+char				*env_value_or_empty(t_global *g, const char *key);
+void				append_plain_char(const char *src, int *i, char **out);
+int					add_expanded_arg(t_cmd *cmd, t_token *current,
+						t_global *global);
+int					is_var_start(char c);
+int					check_token(t_token **current, t_cmd **cmd, t_cmd *head,
+						t_global *global);
+
+int					is_var_char(char c);
+int					is_var_start(char c);
 
 /* env_ops.c */
 t_env				*env_find(t_env *env, char *key);
@@ -198,4 +213,5 @@ int					builtin_exit(t_cmd *cmd, t_global *global);
 void				free_array(char **dirs);
 void				quit(t_global *global);
 void				free_all(t_global *global);
+
 #endif

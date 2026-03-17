@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_dispatch.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 20:16:59 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/11 19:31:01 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	run_builtin_with_redirs(t_cmd *cmd, t_global *global)
 	int	ret;
 
 	saved_stdin = dup(STDIN_FILENO);
-	saved_stdout = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
 	if (apply_redirs(cmd) == -1)
 	{
 		dup2(saved_stdin, STDIN_FILENO);
@@ -83,9 +83,17 @@ int	run_builtin_with_redirs(t_cmd *cmd, t_global *global)
 
 int	execute(t_cmd *cmds, t_global *global)
 {
-	if (!cmds || !cmds->args || !cmds->args[0])
+	if (!cmds)
+	{
 		return (0);
-	if (!cmds->next && is_builtin(cmds->args[0]))
+	}
+		
+	if (!cmds->args || !cmds->args[0])
+	{
+		apply_redirs(cmds);
+		return(0);
+	}
+		if (!cmds->next && is_builtin(cmds->args[0]))
 	{
 		global->exit_status = run_builtin_with_redirs(cmds, global);
 		return (global->exit_status);

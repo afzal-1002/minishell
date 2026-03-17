@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_token.c                                        :+:      :+:    :+:   */
+/*   env_value_or_empty.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:23:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/11 18:46:20 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/16 22:39:06 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 22:39:07 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*new_token(char *value, t_token_type type)
+char	*env_value_or_empty(t_global *global, const char *key)
 {
-	t_token	*new;
+	t_env	*n;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->value = value;
-	new->type = type;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+	n = env_find(global->env, (char *)key);
+	if (!n || !n->value)
+		return (ft_strdup(""));
+	return (ft_strdup(n->value));
 }

@@ -30,7 +30,12 @@ SRC = \
 	src/cmd/fork_cmd.c \
 	src/cmd/free_cmd.c \
 	src/parser/parse_token.c \
+	src/parser/expand_word.c \
 	src/parser/handle_redirection.c \
+	src/parser/parse_utilits.c \
+	src/parser/expand_env_var.c \
+	src/parser/append_plain_char.c \
+	src/parser/env_value_or_empty.c \
 	src/parser/handle_pipe.c \
 	src/token/add_token_back.c \
 	src/token/free_tokens.c \

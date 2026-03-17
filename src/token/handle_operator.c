@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operator.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 16:07:25 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/11 18:46:22 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "libft.h"
 
 int	handle_operator(char *input, int i, t_token **head)
 {

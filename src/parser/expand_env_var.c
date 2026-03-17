@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_set.c                                          :+:      :+:    :+:   */
+/*   expand_env_var.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:41:59 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 14:42:00 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/16 22:40:04 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 22:42:31 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_env	*env_set(t_global *global, char *key, char *value)
+void	expand_env_var(const char *src, int *i, char **out, t_global *global)
 {
-	t_env	*node;
+	int		start;
+	int		j;
+	char	*piece;
+	char	*value;
 
-	node = env_find(global->env, key);
-	if (node)
-	{
-		env_update(node, value);
-		return (0);
-	}
-	node = env_new_node(key, value);
-	if (!node)
-	{
-		free(node);
-		return (0);
-	}
-		
-	env_append(global, node);
-	return (node);
+	start = *i + 1;
+	j = start;
+	while (src[j] && is_var_char(src[j]))
+		j++;
+	piece = ft_substr(src, start, j - start);
+	value = env_value_or_empty(global, piece);
+	*out = cmd_strappend(*out, value);
+	free(piece);
+	free(value);
+	*i = j;
 }

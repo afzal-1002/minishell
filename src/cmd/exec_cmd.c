@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:49:47 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/11 19:26:01 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	wire_pipes(int prev_fd, int *pipe_fd, int has_next)
 
 void	print_cmd_not_found(char *name)
 {
-	write(STDERR_FILENO, name, ft_strlen(name));
-	write(STDERR_FILENO, ": command not found\n", 20);
+	write(2, name, ft_strlen(name));
+	write(2, ": command not found\n", 20);
 }
 
 void	exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)

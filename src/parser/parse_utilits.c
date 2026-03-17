@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_token.c                                        :+:      :+:    :+:   */
+/*   parse_utilits.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:23:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/11 18:46:20 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/16 23:24:09 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 23:27:10 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*new_token(char *value, t_token_type type)
+int	is_var_start(char c)
 {
-	t_token	*new;
+	return (ft_isalpha(c) || c == '_');
+}
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->value = value;
-	new->type = type;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+int	is_var_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
 }

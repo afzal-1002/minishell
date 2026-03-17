@@ -6,12 +6,11 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 21:09:54 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/17 17:00:55 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "ft_printf.h"
 
 void	init_shell(t_global *global)
 {
@@ -19,6 +18,9 @@ void	init_shell(t_global *global)
 	t_token	*tokens;
 	t_cmd	*parsed_cmd;
 
+	// t_cmd	*next;
+	// char	**args;
+	// t_cmd	*tmp;
 	setup_signals();
 	while (1)
 	{
@@ -38,7 +40,17 @@ void	init_shell(t_global *global)
 		}
 		if (tokens)
 			global->tokens = tokens;
-		parsed_cmd = parse_token(tokens);
+		parsed_cmd = parse_token(tokens, global);
+		// tmp = parsed_cmd;
+		// while (tmp)
+		// {
+		// 	next = tmp->next;
+		// 	ft_printf("Command index: %d\n", tmp->index);
+		// 	args = tmp->args;
+		// 	for (int i = 0; args && args[i]; i++)
+		// 		ft_printf("  Arg %d: %s\n", i, args[i]);
+		// 	tmp = next;
+		// }
 		if (parsed_cmd)
 		{
 			global->cmds = parsed_cmd;

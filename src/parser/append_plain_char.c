@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_token.c                                        :+:      :+:    :+:   */
+/*   append_plain_char.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:23:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/11 18:46:20 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/16 22:41:09 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 22:42:31 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*new_token(char *value, t_token_type type)
+void	append_plain_char(const char *src, int *i, char **out)
 {
-	t_token	*new;
+	char	*piece;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->value = value;
-	new->type = type;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
+	piece = ft_substr(src, *i, 1);
+	*out = cmd_strappend(*out, piece);
+	free(piece);
+	(*i)++;
 }

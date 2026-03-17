@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:36 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 00:12:47 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/11 18:15:39 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "ft_printf.h"
 
 void	setup(const char *name)
 {

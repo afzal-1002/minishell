@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redir_in.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:51:00 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 16:46:36 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/11 19:14:44 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 int	apply_redir_in(t_redir *redir)
 {
 	int	fd;
-
-	fd = open(redir->file, O_RDONLY);
+		fd = open(redir->file, O_RDONLY);
 	if (fd == -1)
 	{
 		perror(redir->file);
