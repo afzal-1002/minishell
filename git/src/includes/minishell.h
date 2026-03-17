@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 18:48:03 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:33:39 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ char				*find_command(char *cmd, t_env *env);
 int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
 int					apply_heredoc(t_redir *redir);
+void				process_heredoc(t_cmd *cmd);
+void				close_heredoc(t_cmd *cmd);
 int					apply_redirs(t_cmd *cmd);
 
 /* exec_cmd.c */

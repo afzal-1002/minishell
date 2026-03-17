@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:10 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 18:32:55 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:19:17 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,26 @@ int	is_numeric(char *s)
 
 int	builtin_exit(t_cmd *cmd, t_global *global)
 {
-	/*ft_putstr_fd("exit\n", STDERR_FILENO);
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!cmd->args[1])
-		return (-1);
+		quit(global);
 	if (cmd->args[2])
 	{
 		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
 		global->exit_status = 1;
-		return (1);
+		quit(global);
 	}
-	if (!is_numeric(cmd->args[0]))
+	if (!is_numeric(cmd->args[1]))
 	{
 		ft_putstr_fd("exit: ", STDERR_FILENO);
-		ft_putstr_fd(cmd->args[0], STDERR_FILENO);
+		ft_putstr_fd(cmd->args[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		global->exit_status = 2;
-		return (-1);
+		quit(global);
 	}
 	global->exit_status = ft_atoi(cmd->args[0]) % 256;
 	if (global->exit_status < 0)
-		global->exit_status += 256;*/
+		global->exit_status += 256;
 	ft_printf("exit\n");
 	(void)cmd;
 	quit(global);

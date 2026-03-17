@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:51:19 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 17:17:03 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:50:09 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	write_heredoc_lines(int write_fd, char *delim)
 
 	while (1)
 	{
-		line = readline(">heredoc ");
+		line = readline("> ");
 		if (!line || ft_strncmp(line, delim, ft_strlen(delim) + 1) == 0)
 		{
 			free(line);
@@ -51,4 +51,40 @@ int	apply_heredoc(t_redir *redir)
 	}
 	close(pipe_fd[0]);
 	return (0);
+}
+
+void	process_heredoc(t_cmd *cmd)
+{
+	t_redir	*redir;
+
+	while (cmd)
+	{
+		redir = cmd->redirs;
+		while (redir)
+		{
+			if (redir->type == T_HEREDOC)
+				apply_heredoc(redir);
+			redir = redir->next;
+		}
+		cmd = cmd->next;
+	}
+}
+
+void	close_heredoc(t_cmd *cmd)
+{
+	t_redir	*redir;
+	int		saved_stdin;
+
+	saved_stdin = dup(STDIN_FILENO);
+	while (cmd)
+	{
+		redir = cmd->redirs;
+		while (redir)
+		{
+			if (redir->type == T_HEREDOC)
+				dup2(saved_stdin, redir->fd);
+			redir = redir->next;
+		}
+		cmd = cmd->next;
+	}
 }
