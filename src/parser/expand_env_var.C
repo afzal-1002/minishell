@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_for_children.c                                :+:      :+:    :+:   */
+/*   expand_env_var.C                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:40:22 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 17:48:17 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/17 18:23:17 by mgolasze          #+#    #+#             */
+/*   Updated: 2026/03/17 19:33:43 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	wait_for_children(t_global *global)
+void	expand_env_var(const char *src, int *i, char **out, t_global *g)
 {
-	int	status;
-	int	last;
+	int		start;
+	char	*piece;
+	char	*num;
 
-	last = 0;
-	while (wait(&status) > 0)
-	{
-		if (WIFEXITED(status))
-			last = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			last = 128 + WTERMSIG(status);
-	}
-	global->exit_status = last;
+	start = ++(*i);
+	while (src[*i] && is_var_char(src[*i]))
+		(*i)++;
+	piece = ft_substr(src, start, *i - start);
+	num = env_value_or_empty(g, piece);
+	*out = cmd_strappend(*out, num);
+	free(piece);
+	free(num);
 }

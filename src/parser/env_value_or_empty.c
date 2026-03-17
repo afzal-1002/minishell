@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_for_children.c                                :+:      :+:    :+:   */
+/*   env_value_or_empty.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:40:22 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 17:48:17 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/16 22:39:06 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/17 19:33:56 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	wait_for_children(t_global *global)
+char	*env_value_or_empty(t_global *global, const char *key)
 {
-	int	status;
-	int	last;
+	t_env	*n;
 
-	last = 0;
-	while (wait(&status) > 0)
-	{
-		if (WIFEXITED(status))
-			last = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			last = 128 + WTERMSIG(status);
-	}
-	global->exit_status = last;
+	n = env_find(global->env, (char *)key);
+	if (!n || !n->value)
+		return (ft_strdup(""));
+	return (ft_strdup(n->value));
 }

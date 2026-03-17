@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_for_children.c                                :+:      :+:    :+:   */
+/*   parse_utilits.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06 14:40:22 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 17:48:17 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/16 23:24:09 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/16 23:27:10 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	wait_for_children(t_global *global)
+int	is_var_start(char c)
 {
-	int	status;
-	int	last;
+	return (ft_isalpha(c) || c == '_');
+}
 
-	last = 0;
-	while (wait(&status) > 0)
-	{
-		if (WIFEXITED(status))
-			last = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			last = 128 + WTERMSIG(status);
-	}
-	global->exit_status = last;
+int	is_var_char(char c)
+{
+	return (ft_isalnum(c) || c == '_');
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:51 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 20:15:12 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/16 18:17:21 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,19 @@ int	echo_print(char **args, int start, int newline)
 	return (0);
 }
 
-int	builtin_echo(t_cmd *cmd)
+int	builtin_echo(t_cmd *cmd, t_global *global)
 {
 	int	i;
 	int	newline;
 
 	newline = 1;
 	i = 1;
+	(void)global;
+	if (!cmd->args)
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		return (0);
+	}
 	while (cmd->args[i] && is_n_flag(cmd->args[i]))
 	{
 		newline = 0;

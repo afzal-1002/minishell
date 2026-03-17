@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/11 19:31:01 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/17 19:45:14 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	run_builtin(t_cmd *cmd, t_global *global)
 		return (1);
 	name = cmd->args[0];
 	if (ft_strncmp(name, "echo", 5) == 0)
-		return (builtin_echo(cmd));
+		return (builtin_echo(cmd, global));
 	if (ft_strncmp(name, "cd", 3) == 0)
 		return (builtin_cd(cmd, global));
 	if (ft_strncmp(name, "pwd", 4) == 0)
@@ -83,20 +83,27 @@ int	run_builtin_with_redirs(t_cmd *cmd, t_global *global)
 
 int	execute(t_cmd *cmds, t_global *global)
 {
-	//if (!cmds || !cmds->args || !cmds->args[0])
-		//return (0);
+	int	saved_stdin;
+
 	if (!cmds)
 		return (0);
+	saved_stdin = dup(STDIN_FILENO);
+	process_heredoc(cmds);
 	if (!cmds->args || !cmds->args[0])
 	{
-		apply_redirs(cmds);
-		return(0);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
+		return (0);
 	}
-		if (!cmds->next && is_builtin(cmds->args[0]))
+	if (!cmds->next && is_builtin(cmds->args[0]))
 	{
 		global->exit_status = run_builtin_with_redirs(cmds, global);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
 		return (global->exit_status);
 	}
 	pipe_exe(cmds, global);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdin);
 	return (global->exit_status);
 }

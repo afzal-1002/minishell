@@ -6,13 +6,42 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 08:49:43 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/16 23:53:56 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_cmd	*parse_token(t_token *tokens)
+int	add_expanded_arg(t_cmd *cmd, t_token *current, t_global *global)
+{
+	char	*expanded;
+
+	expanded = expand_word(current->value, global);
+	if (!expanded)
+		return (0);
+	add_cmd_arg(cmd, expanded);
+	free(expanded);
+	return (1);
+}
+
+int	check_token(t_token **current, t_cmd **cmd, t_cmd *head, t_global *global)
+{
+	if ((*current)->type == T_WORD)
+	{
+		if (!add_expanded_arg(*cmd, *current, global))
+		{
+			free_cmd(head);
+			return (0);
+		}
+	}
+	else if (is_redirection((*current)->type))
+		*current = handle_redirection(*cmd, *current);
+	else if ((*current)->type == T_PIPE)
+		*cmd = handle_pipe(*cmd);
+	return (1);
+}
+
+t_cmd	*parse_token(t_token *tokens, t_global *global)
 {
 	t_cmd	*head;
 	t_cmd	*cmd;
@@ -25,12 +54,8 @@ t_cmd	*parse_token(t_token *tokens)
 	current = tokens;
 	while (current)
 	{
-		if (current->type == T_WORD)
-			add_cmd_arg(cmd, current->value);
-		else if (is_redirection(current->type))
-			current = handle_redirection(cmd, current);
-		else if (current->type == T_PIPE)
-			cmd = handle_pipe(cmd);
+		if (!check_token(&current, &cmd, head, global))
+			return (NULL);
 		current = current->next;
 	}
 	return (head);

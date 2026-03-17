@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:54 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/22 23:24:55 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/16 18:31:18 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,30 @@
 void	free_cmd(t_cmd *cmd)
 {
 	int		i;
-	t_redir	*redir;
-	t_redir	*tmp;
+	t_cmd	*tmp;
 
 	if (!cmd)
 		return ;
-	if (cmd->args)
+	while (cmd)
 	{
-		i = 0;
-		while (cmd->args[i])
-			free(cmd->args[i++]);
-		free(cmd->args);
+		tmp = cmd->next;
+		if (cmd->args)
+		{
+			i = 0;
+			while (cmd->args[i])
+				free(cmd->args[i++]);
+			free(cmd->args);
+		}
+		free_redir(cmd->redirs);
+		free(cmd);
+		cmd = tmp;
 	}
-	redir = cmd->redirs;
+}
+
+void	free_redir(t_redir *redir)
+{
+	t_redir	*tmp;
+
 	while (redir)
 	{
 		tmp = redir->next;
@@ -35,5 +46,4 @@ void	free_cmd(t_cmd *cmd)
 		free(redir);
 		redir = tmp;
 	}
-	free(cmd);
 }
