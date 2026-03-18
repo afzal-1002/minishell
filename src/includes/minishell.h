@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 16:33:39 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/17 23:34:23 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 typedef enum e_token_type
 {
 	T_WORD,
+	T_SINGLE_QUOTE,
+	T_DOUBLE_QUOTE,
 	T_PIPE,
 	T_REDIR_IN,
 	T_REDIR_OUT,
@@ -116,7 +118,8 @@ int					is_redirection(t_token_type type);
 t_token				*handle_redirection(t_cmd *cmd, t_token *current);
 t_cmd				*handle_pipe(t_cmd *cmd);
 int					handle_quotes(char *input, int i);
-char				*expand_word(const char *src, t_global *g);
+char				*expand_word(const char *src, t_global *g,
+						t_token_type type);
 
 void				setup(const char *name);
 void				init_shell(t_global *global);
@@ -124,9 +127,9 @@ void				createglobal(t_global *global, char **envp);
 void				setup_signals(void);
 void				expand_env_var(const char *src, int *i, char **out,
 						t_global *g);
-void				expand_exit_status(int *i, char **out, t_global *g);
+char				*expand_exit_status(int *i, t_global *g);
 char				*env_value_or_empty(t_global *g, const char *key);
-void				append_plain_char(const char *src, int *i, char **out);
+char				*append_plain_char(const char *src, int *i);
 int					add_expanded_arg(t_cmd *cmd, t_token *current,
 						t_global *global);
 int					is_var_start(char c);
@@ -216,5 +219,9 @@ int					builtin_exit(t_cmd *cmd, t_global *global);
 void				free_array(char **dirs);
 void				quit(t_global *global);
 void				free_all(t_global *global);
+
+/* init */
+void				init_env_from_envp(t_global *global, char **envp);
+void				create_global(t_global *global, char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:55 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 00:12:24 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/17 23:34:27 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,43 @@ int	handle_quotes(char *input, int i)
 	return (i);
 }
 
+static char	*strip_quotes(char *value)
+{
+	char	*stripped;
+	int		len;
+
+	len = ft_strlen(value);
+	if (len >= 2 && ((value[0] == '\'' && value[len - 1] == '\'')
+			|| (value[0] == '"' && value[len - 1] == '"')))
+	{
+		stripped = ft_substr(value, 1, len - 2);
+		free(value);
+		return (stripped);
+	}
+	return (value);
+}
+
+static t_token_type	get_quote_type(char *value)
+{
+	int	len;
+
+	len = ft_strlen(value);
+	if (len >= 2)
+	{
+		if (value[0] == '\'' && value[len - 1] == '\'')
+			return (T_SINGLE_QUOTE);
+		if (value[0] == '"' && value[len - 1] == '"')
+			return (T_DOUBLE_QUOTE);
+	}
+	return (T_WORD);
+}
+
 int	handle_word(char *input, int i, t_token **head)
 {
-	int		start;
-	char	*value;
-	t_token	*new;
+	int				start;
+	char			*value;
+	t_token			*new;
+	t_token_type	type;
 
 	start = i;
 	while (input[i] && input[i] != ' ' && !is_operator(input[i]))
@@ -40,7 +72,9 @@ int	handle_word(char *input, int i, t_token **head)
 			i++;
 	}
 	value = ft_substr(input, start, i - start);
-	new = new_token(value, T_WORD);
+	type = get_quote_type(value);
+	value = strip_quotes(value);
+	new = new_token(value, type);
 	add_token_back(head, new);
 	return (i);
 }

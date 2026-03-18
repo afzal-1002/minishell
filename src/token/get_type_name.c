@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:02 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/22 23:24:03 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/17 23:22:50 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,9 @@ char	*get_type_name(t_token_type type)
 		return ("FD_REDIR_OUT");
 	if (type == T_FD_REDIR_APPEND)
 		return ("FD_REDIR_APPEND");
+	if (type == T_SINGLE_QUOTE)
+		return ("SINGLE_QUOTE");
+	if (type == T_DOUBLE_QUOTE)
+		return ("DOUBLE_QUOTE");
 	return ("UNKNOWN");
 }

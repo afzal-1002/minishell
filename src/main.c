@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/11 18:14:51 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/17 22:14:27 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	createglobal(&global, envp);
+	create_global(&global, envp);
 	init_shell(&global);
 	return (0);
 }

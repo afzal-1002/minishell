@@ -22,7 +22,6 @@ SRC = \
 	src/main.c \
 	src/init/init_shell.c \
 	src/init/setup.c \
-	src/init/env_init.c \
 	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
 	src/cmd/exec_cmd.c \
@@ -82,14 +81,12 @@ SRC = \
 	src/signals/signals.c \
 	src/utils/free_array.c \
 	src/utils/free_all.c \
-	src/init/quit.c
+	src/init/quit.c \
+	src/init/create_global.c \
+	src/init/init_env_from_envp.c
 
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
-
-# ------------------------------
-# Rules
-# ------------------------------
 
 all: libs $(NAME)
 

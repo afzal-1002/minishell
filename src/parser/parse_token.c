@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 23:53:56 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/17 23:34:28 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	add_expanded_arg(t_cmd *cmd, t_token *current, t_global *global)
 {
 	char	*expanded;
 
-	expanded = expand_word(current->value, global);
+	expanded = expand_word(current->value, global, current->type);
 	if (!expanded)
 		return (0);
 	add_cmd_arg(cmd, expanded);
@@ -26,7 +26,8 @@ int	add_expanded_arg(t_cmd *cmd, t_token *current, t_global *global)
 
 int	check_token(t_token **current, t_cmd **cmd, t_cmd *head, t_global *global)
 {
-	if ((*current)->type == T_WORD)
+	if ((*current)->type == T_WORD || (*current)->type == T_SINGLE_QUOTE
+		|| (*current)->type == T_DOUBLE_QUOTE)
 	{
 		if (!add_expanded_arg(*cmd, *current, global))
 		{
