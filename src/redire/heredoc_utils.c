@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_cmd_arg.c                                      :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 18:48:29 by mgolasze         ###   ########.fr       */
+/*   Created: 2026/03/18 18:41:32 by mgolasze          #+#    #+#             */
+/*   Updated: 2026/03/23 16:45:40 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_cmd_arg(t_cmd *cmd, char *value)
+char	*handle_delim(char *delim)
 {
-	char	**new_args;
 	int		i;
+	int		j;
+	char	*newdelim;
 
 	i = 0;
-	while (cmd->args && cmd->args[i])
-		i++;
-	new_args = malloc(sizeof(char *) * (i + 2));
-	if (!new_args)
-		return ;
-	i = 0;
-	while (cmd->args && cmd->args[i])
+	j = 0;
+	while (delim[i])
 	{
-		new_args[i] = cmd->args[i];
+		if (!(delim[i] == '\'' || delim[i] == '\"'))
+			j++;
 		i++;
 	}
-	new_args[i] = ft_strdup(value);
-	new_args[i + 1] = NULL;
-	free(cmd->args);
-	cmd->args = new_args;
+	newdelim = malloc(sizeof(char) *(j + 1));
+	i = 0;
+	j = 0;
+	while (delim[i])
+	{
+		if (!(delim[i] == '\'' || delim[i] == '\"'))
+			newdelim[j++] = delim[i];
+		i++;
+	}
+	newdelim[j] = '\0';
+	return (newdelim);
 }

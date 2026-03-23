@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 23:34:23 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/23 18:11:01 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 typedef enum e_token_type
 {
 	T_WORD,
-	T_SINGLE_QUOTE,
-	T_DOUBLE_QUOTE,
 	T_PIPE,
 	T_REDIR_IN,
 	T_REDIR_OUT,
@@ -90,6 +88,16 @@ typedef struct s_global
 	int				signal_received;
 }					t_global;
 
+typedef struct s_expander
+{
+	t_global		*global;
+	char			*out;
+	char			*src;
+	int				i;
+	int 			is_singlequote;
+	int				is_doublequote;
+}					t_expander;
+
 /* tokenizer */
 t_token				*tokenize(char *input);
 t_token				*new_token(char *value, t_token_type type);
@@ -118,8 +126,7 @@ int					is_redirection(t_token_type type);
 t_token				*handle_redirection(t_cmd *cmd, t_token *current);
 t_cmd				*handle_pipe(t_cmd *cmd);
 int					handle_quotes(char *input, int i);
-char				*expand_word(const char *src, t_global *g,
-						t_token_type type);
+char				*expand_word(const char *src, t_global *global);
 
 void				setup(const char *name);
 void				init_shell(t_global *global);
@@ -127,9 +134,9 @@ void				createglobal(t_global *global, char **envp);
 void				setup_signals(void);
 void				expand_env_var(const char *src, int *i, char **out,
 						t_global *g);
-char				*expand_exit_status(int *i, t_global *g);
+void				expand_exit_status(int *i, char **out, t_global *g);
 char				*env_value_or_empty(t_global *g, const char *key);
-char				*append_plain_char(const char *src, int *i);
+void				append_plain_char(const char *src, int *i, char **out);
 int					add_expanded_arg(t_cmd *cmd, t_token *current,
 						t_global *global);
 int					is_var_start(char c);
@@ -165,10 +172,11 @@ char				*find_command(char *cmd, t_env *env);
 /* redir.c */
 int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
-int					apply_heredoc(t_redir *redir);
-void				process_heredoc(t_cmd *cmd);
+int					apply_heredoc(t_redir *redir, t_global *global);
+void				process_heredoc(t_cmd *cmd, t_global *global);
 void				close_heredoc(t_cmd *cmd);
 int					apply_redirs(t_cmd *cmd);
+char				*handle_delim(char *delim);
 
 /* exec_cmd.c */
 void				wire_pipes(int prev_fd, int *pipe_fd, int has_next);
@@ -219,9 +227,7 @@ int					builtin_exit(t_cmd *cmd, t_global *global);
 void				free_array(char **dirs);
 void				quit(t_global *global);
 void				free_all(t_global *global);
-
-/* init */
-void				init_env_from_envp(t_global *global, char **envp);
-void				create_global(t_global *global, char **envp);
+/* expander*/
+char				*expand_word(const char *src, t_global *global);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:48:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 19:45:14 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 16:48:49 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,31 +79,4 @@ int	run_builtin_with_redirs(t_cmd *cmd, t_global *global)
 	close(saved_stdin);
 	close(saved_stdout);
 	return (ret);
-}
-
-int	execute(t_cmd *cmds, t_global *global)
-{
-	int	saved_stdin;
-
-	if (!cmds)
-		return (0);
-	saved_stdin = dup(STDIN_FILENO);
-	process_heredoc(cmds);
-	if (!cmds->args || !cmds->args[0])
-	{
-		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdin);
-		return (0);
-	}
-	if (!cmds->next && is_builtin(cmds->args[0]))
-	{
-		global->exit_status = run_builtin_with_redirs(cmds, global);
-		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdin);
-		return (global->exit_status);
-	}
-	pipe_exe(cmds, global);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-	return (global->exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:10 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 14:19:17 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 16:47:04 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	builtin_exit(t_cmd *cmd, t_global *global)
 	}
 	if (!is_numeric(cmd->args[1]))
 	{
-		ft_putstr_fd("exit: ", STDERR_FILENO);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(cmd->args[1], STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		global->exit_status = 2;
