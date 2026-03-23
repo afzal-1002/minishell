@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:27 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 23:53:56 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/23 20:33:14 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check_token(t_token **current, t_cmd **cmd, t_cmd *head, t_global *global)
 		}
 	}
 	else if (is_redirection((*current)->type))
-		*current = handle_redirection(*cmd, *current);
+		*current = handle_redirection(*cmd, *current, global);
 	else if ((*current)->type == T_PIPE)
 		*cmd = handle_pipe(*cmd);
 	return (1);

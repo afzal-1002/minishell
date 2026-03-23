@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 18:05:53 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 20:32:32 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	wire_pipes(int prev_fd, int *pipe_fd, int has_next)
 	{
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
-		close(pipe_fd[1]);
+		//close(pipe_fd[1]);
 	}
 }
 

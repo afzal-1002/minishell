@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 18:04:01 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 20:38:37 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_shell(t_global *global)
 	setup_signals();
 	while (1)
 	{
-		input = readline("minishell$ ");
+		input = readline("OURminishell$ ");
 		if (!input)
 		{
 			ft_printf("exit\n");

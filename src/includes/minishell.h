@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 18:11:01 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 20:47:31 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
+
+# define PROMPT "\033[22;33m$minishell> \033[0m"
 
 # include "../../utils/ft_printf/ft_printf.h"
 # include "../../utils/libft/libft.h"
@@ -123,7 +125,7 @@ char				*cmd_strappend(char *dst, const char *add);
 void				free_cmd(t_cmd *cmd);
 void				free_redir(t_redir *redir);
 int					is_redirection(t_token_type type);
-t_token				*handle_redirection(t_cmd *cmd, t_token *current);
+t_token				*handle_redirection(t_cmd *cmd, t_token *current, t_global *global);
 t_cmd				*handle_pipe(t_cmd *cmd);
 int					handle_quotes(char *input, int i);
 char				*expand_word(const char *src, t_global *global);

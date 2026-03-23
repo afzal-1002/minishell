@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_new.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:21 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/06 09:51:38 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/23 19:30:03 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	redir_new(t_cmd *cmd, t_token_type type, char *op, char *value)
 	new->file = ft_strdup(value);
 	new->next = NULL;
 	if ((type == T_FD_REDIR_OUT || type == T_FD_REDIR_APPEND) && isdigit(op[0]))
-	{
 		new->fd = op[0] - '0';
-	}
 	else if (type == T_REDIR_IN || type == T_HEREDOC)
 		new->fd = 0;
 	else
