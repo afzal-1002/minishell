@@ -41,8 +41,12 @@ SRC = \
 	src/expander/expand_env_var.c \
 	src/expander/expand_glob.c \
 	src/expander/glob_match.c \
+	src/parser/add_expanded_arg.c \
+	src/parser/check_token.c \
 	src/parser/handle_redirection.c \
+	src/parser/has_quotes.c \
 	src/parser/parse_utilits.c \
+	src/parser/token_error.c \
 	src/parser/append_plain_char.c \
 	src/parser/env_value_or_empty.c \
 	src/parser/handle_pipe.c \
