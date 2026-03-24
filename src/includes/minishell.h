@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 15:51:51 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 17:29:46 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,16 @@ typedef struct s_expander
 	int				is_doublequote;
 }					t_expander;
 
+typedef struct s_parse_state
+{
+	int				i;
+	int				start;
+	int				single_q;
+	int				double_q;
+	int				paren_depth;
+	int				should_exec;
+}					t_parse_state;
+
 /* tokenizer */
 t_token				*tokenize(char *input);
 t_token				*new_token(char *value, t_token_type type);
@@ -149,6 +159,7 @@ int					check_token(t_token **current, t_cmd **cmd, t_cmd *head,
 
 int					is_var_char(char c);
 int					is_var_start(char c);
+int					is_blank(char c);
 
 /* env_ops.c */
 t_env				*env_find(t_env *env, char *key);
@@ -231,8 +242,25 @@ int					builtin_exit(t_cmd *cmd, t_global *global);
 void				free_array(char **dirs);
 void				quit(t_global *global);
 void				free_all(t_global *global);
+
 /* expander*/
 char				*expand_word(const char *src, t_global *global);
 char				**expand_glob_pattern(const char *pattern);
+int					run_and_or_chain(char *input, t_global *global);
+int					execute_segment(char *segment, t_global *global);
+int					operator_syntax_error(char *op);
+char				*trimmed_segment(const char *input, int start, int end);
+int					has_unclosed_quote(const char *input);
+char				*append_input_line(char *input, char *line);
+char				*read_unclosed_quotes(char *input);
 
+/*Handle Quote*/
+void				handle_single_quote(char c, int *single_q, int double_q);
+void				handle_double_quote(char c, int single_q, int *double_q);
+int					handle_or_operator(char *input, int *start, int *i,
+						int *should_exec, t_global *global);
+int					handle_and_operator(char *input, int *start, int *i,
+						int *should_exec, t_global *global);
+int					handle_unquoted_block(char *input, int *i, int *paren_depth,
+						int *start, int *should_exec, t_global *global);
 #endif

@@ -21,6 +21,9 @@ FT_PRINTF_LIB = $(FT_PRINTF_DIR)/ft_printf.a
 SRC = \
 	src/main.c \
 	src/init/init_shell.c \
+	src/init/handle_quote.c \
+	src/init/handle_and_or_operator.c \
+	src/init/handle_unquoted_block.c \
 	src/init/setup.c \
 	src/init/env_init.c \
 	src/cmd/add_cmd_arg.c \
@@ -84,6 +87,8 @@ SRC = \
 	src/redire/redir_add_back.c \
 	src/redire/redir_new.c \
 	src/signals/signals.c \
+	src/utils/is_blank.c \
+	src/utils/operator_syntax_error.c \
 	src/utils/free_array.c \
 	src/utils/free_all.c \
 	src/init/quit.c
