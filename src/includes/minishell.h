@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 22:02:04 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 15:51:51 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,5 +233,6 @@ void				quit(t_global *global);
 void				free_all(t_global *global);
 /* expander*/
 char				*expand_word(const char *src, t_global *global);
+char				**expand_glob_pattern(const char *pattern);
 
 #endif

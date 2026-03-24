@@ -33,6 +33,7 @@ SRC = \
 	src/expander/expand_word.c \
 	src/expander/expand_utils.c \
 	src/expander/expand_env_var.c \
+	src/expander/expand_glob.c \
 	src/parser/handle_redirection.c \
 	src/parser/parse_utilits.c \
 	src/parser/append_plain_char.c \

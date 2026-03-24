@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 20:27:32 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 18:12:34 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:15:52 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,26 @@ static void	update_quote(t_expander *expander)
 	char	c;
 
 	c = expander->src[expander->i];
-	if (c == '\'' && !expander->is_doublequote)
-		expander->is_singlequote = !expander->is_singlequote;
-	else if (c == '"' && !expander->is_singlequote)
-		expander->is_doublequote = !expander->is_doublequote;
-	expander->i++;
+	if (c == '\'')
+	{
+		if (expander->is_doublequote)
+			append_plain_char(expander->src, &expander->i, &expander->out);
+		else
+		{
+			expander->is_singlequote = !expander->is_singlequote;
+			expander->i++;
+		}
+	}
+	else if (c == '"')
+	{
+		if (expander->is_singlequote)
+			append_plain_char(expander->src, &expander->i, &expander->out);
+		else
+		{
+			expander->is_doublequote = !expander->is_doublequote;
+			expander->i++;
+		}
+	}
 }
 
 static void	handle_dollar(t_expander *expander)
@@ -44,8 +59,8 @@ static void	handle_dollar(t_expander *expander)
 	else if (expander->src[expander->i + 1] == '?')
 		expand_exit_status(&expander->i, &expander->out, expander->global);
 	else if (is_var_start(expander->src[expander->i + 1]))
-		expand_env_var(expander->src, &expander->i,
-			&expander->out, expander->global);
+		expand_env_var(expander->src, &expander->i, &expander->out,
+			expander->global);
 	else
 	{
 		expander->out = cmd_strappend(expander->out, "$");
