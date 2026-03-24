@@ -23,6 +23,12 @@ SRC = \
 	src/init/init_shell.c \
 	src/init/setup.c \
 	src/init/env_init.c \
+	src/handler/handle_and_or_operator.c \
+	src/handler/handle_unquoted.c \
+	src/handler/handle_unclosed_quote.c\
+	src/handler/handle_double_quote.c\
+	src/handler/handle_single_quote.c\
+	src/handler/execute_segment.c\
 	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
 	src/cmd/exec_cmd.c \
@@ -30,10 +36,13 @@ SRC = \
 	src/cmd/fork_cmd.c \
 	src/cmd/free_cmd.c \
 	src/parser/parse_token.c \
-	src/parser/expand_word.c \
+	src/expander/expand_word.c \
+	src/expander/expand_utils.c \
+	src/expander/expand_env_var.c \
+	src/expander/expand_glob.c \
+	src/expander/glob_match.c \
 	src/parser/handle_redirection.c \
 	src/parser/parse_utilits.c \
-	src/parser/expand_env_var.c \
 	src/parser/append_plain_char.c \
 	src/parser/env_value_or_empty.c \
 	src/parser/handle_pipe.c \
@@ -68,6 +77,7 @@ SRC = \
 	src/env/rebuild_env.c \
 	src/env/free_env.c \
 	src/execution/wait_for_children.c \
+	src/execution/execute.c \
 	src/pipe/advance_pipe.c \
 	src/pipe/open_pipe.c \
 	src/pipe/pipe_exe.c \
@@ -75,11 +85,16 @@ SRC = \
 	src/redire/apply_redir_out.c \
 	src/redire/apply_redirs.c \
 	src/redire/heredoc.c \
+	src/redire/heredoc_utils.c \
 	src/redire/create_redir.c \
 	src/redire/is_redirection.c \
 	src/redire/redir_add_back.c \
+	src/redire/prepare_heredoc.c \
+	src/redire/process_heredoc.c \
 	src/redire/redir_new.c \
 	src/signals/signals.c \
+	src/utils/is_blank.c \
+	src/utils/operator_syntax_error.c \
 	src/utils/free_array.c \
 	src/utils/free_all.c \
 	src/init/quit.c

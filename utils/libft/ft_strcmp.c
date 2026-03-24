@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:09:35 by mafzal            #+#    #+#             */
-/*   Updated: 2024/12/28 23:45:21 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 21:36:17 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 	if (!s1 || !s2)
 		return (0);
 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-	{
 		i++;
-	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

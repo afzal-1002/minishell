@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/11 19:26:01 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/24 21:59:03 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	wire_pipes(int prev_fd, int *pipe_fd, int has_next)
 	{
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
-		close(pipe_fd[1]);
 	}
 }
 
@@ -33,11 +32,20 @@ void	print_cmd_not_found(char *name)
 	write(2, ": command not found\n", 20);
 }
 
+static void	handle_cmd_not_found(t_cmd *cmd, char **env)
+{
+	print_cmd_not_found(cmd->args[0]);
+	free_env_arr(env);
+	exit(127);
+}
+
 void	exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
 {
 	char	**env;
 	char	*path;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	wire_pipes(prev_fd, pipe_fd, cmd->next != NULL);
 	if (apply_redirs(cmd) == -1)
 		exit(1);
@@ -51,11 +59,7 @@ void	exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
 	}
 	path = find_command(cmd->args[0], global->env);
 	if (!path)
-	{
-		print_cmd_not_found(cmd->args[0]);
-		free_env_arr(env);
-		exit(127);
-	}
+		handle_cmd_not_found(cmd, env);
 	execve(path, cmd->args, env);
 	perror(path);
 	free(path);

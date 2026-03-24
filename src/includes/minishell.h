@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/16 23:39:43 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 22:32:46 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #  define PATH_MAX 4096
 # endif
 
+# define PROMPT "\033[22;33m$minishell> \033[0m"
+
 # include "../../utils/ft_printf/ft_printf.h"
 # include "../../utils/libft/libft.h"
 # include <ctype.h>
@@ -33,6 +35,8 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+extern int			g_signal_state;
 
 typedef enum e_token_type
 {
@@ -85,8 +89,27 @@ typedef struct s_global
 	t_cmd			*cmds;
 	t_token			*tokens;
 	int				exit_status;
-	int				signal_received;
 }					t_global;
+
+typedef struct s_expander
+{
+	t_global		*global;
+	char			*out;
+	char			*src;
+	int				i;
+	int				is_singlequote;
+	int				is_doublequote;
+}					t_expander;
+
+typedef struct s_parse_state
+{
+	int				i;
+	int				start;
+	int				single_q;
+	int				double_q;
+	int				paren_depth;
+	int				should_exec;
+}					t_parse_state;
 
 /* tokenizer */
 t_token				*tokenize(char *input);
@@ -111,11 +134,14 @@ void				redir_new(t_cmd *cmd, t_token_type type, char *op,
 						char *value);
 char				*cmd_strappend(char *dst, const char *add);
 void				free_cmd(t_cmd *cmd);
+void				free_redir(t_redir *redir);
 int					is_redirection(t_token_type type);
-t_token				*handle_redirection(t_cmd *cmd, t_token *current);
+t_token				*handle_redirection(t_cmd *cmd, t_token *current,
+						t_global *global);
 t_cmd				*handle_pipe(t_cmd *cmd);
 int					handle_quotes(char *input, int i);
-char				*expand_word(const char *src, t_global *g);
+char				*expand_word(const char *src, t_global *global);
+int					has_quotes(const char *str);
 
 void				setup(const char *name);
 void				init_shell(t_global *global);
@@ -134,6 +160,8 @@ int					check_token(t_token **current, t_cmd **cmd, t_cmd *head,
 
 int					is_var_char(char c);
 int					is_var_start(char c);
+int					is_blank(char c);
+int					token_error(char *unexpected);
 
 /* env_ops.c */
 t_env				*env_find(t_env *env, char *key);
@@ -161,8 +189,11 @@ char				*find_command(char *cmd, t_env *env);
 /* redir.c */
 int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
-int					apply_heredoc(t_redir *redir);
+int					apply_heredoc(t_redir *redir, t_global *global);
+int					prepare_heredoc(pid_t pid, t_redir *redir);
+int					process_heredoc(t_cmd *cmd, t_global *global);
 int					apply_redirs(t_cmd *cmd);
+char				*handle_delim(char *delim);
 
 /* exec_cmd.c */
 void				wire_pipes(int prev_fd, int *pipe_fd, int has_next);
@@ -193,7 +224,7 @@ int					builtin_unset(t_cmd *cmd, t_global *global);
 /* builtin_echo.c */
 int					is_n_flag(char *arg);
 int					echo_print(char **args, int start, int newline);
-int					builtin_echo(t_cmd *cmd);
+int					builtin_echo(t_cmd *cmd, t_global *global);
 
 /* builtin_cd.c */
 char				*cd_resolve_path(t_cmd *cmd, t_global *global);
@@ -214,4 +245,25 @@ void				free_array(char **dirs);
 void				quit(t_global *global);
 void				free_all(t_global *global);
 
+/* expander*/
+char				*expand_word(const char *src, t_global *global);
+char				**expand_glob_pattern(const char *pattern);
+int					glob_match_pattern(const char *pattern, const char *name);
+int					run_and_or_chain(char *input, t_global *global);
+int					operator_syntax_error(char *op);
+char				*trimmed_segment(const char *input, int start, int end);
+char				*append_input_line(char *input, char *line);
+char				*read_unclosed_quotes(char *input);
+
+/*Handle Quote*/
+int					handle_unclosed_quote(const char *input);
+void				handle_single_quote(char c, int *single_q, int double_q);
+void				handle_double_quote(char c, int single_q, int *double_q);
+int					handle_or_operator(char *input, t_parse_state *state,
+						t_global *global);
+int					handle_and_operator(char *input, t_parse_state *state,
+						t_global *global);
+int					handle_unquoted_block(char *input, t_parse_state *state,
+						t_global *global);
+int					execute_segment(char *segment, t_global *global);
 #endif
