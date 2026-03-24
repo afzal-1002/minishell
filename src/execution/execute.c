@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 16:48:15 by mgolasze          #+#    #+#             */
-/*   Updated: 2026/03/23 22:36:08 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 20:29:31 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	execute(t_cmd *cmds, t_global *global)
 	if (process_heredoc(cmds, global) == -1 || g_signal_state == -1)
 	{
 		global->exit_status = 130;
-		g_signal_state = 0;
 		dup2(saved_stdin, STDIN_FILENO);
 		close(saved_stdin);
 		return (global->exit_status);

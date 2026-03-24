@@ -6,93 +6,107 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 16:00:00 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 15:51:59 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 19:55:51 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <dirent.h>
-#include <fnmatch.h>
+
+#define GLOB_START_CAP 32
 
 static int	contains_glob_chars(const char *str)
 {
 	while (*str)
 	{
-		if (*str == '*' || *str == '?' || *str == '[')
+		if (*str == '*' || *str == '?')
 			return (1);
 		str++;
 	}
 	return (0);
 }
 
-static int	match_pattern(const char *name, const char *pattern)
+static void	free_partial(char **arr, int count)
 {
-	return (fnmatch(pattern, name, FNM_PATHNAME) == 0);
+	while (count > 0)
+	{
+		count--;
+		free(arr[count]);
+	}
+	free(arr);
+}
+
+static int	append_match(char ***matches, int *count, int *capacity, char *name)
+{
+	char	**new_arr;
+	int		new_capacity;
+	int		i;
+
+	if (*count >= *capacity - 1)
+	{
+		new_capacity = (*capacity * 2);
+		new_arr = malloc(sizeof(char *) * new_capacity);
+		if (!new_arr)
+			return (0);
+		i = 0;
+		while (i < *count)
+		{
+			new_arr[i] = (*matches)[i];
+			i++;
+		}
+		free(*matches);
+		*matches = new_arr;
+		*capacity = new_capacity;
+	}
+	(*matches)[*count] = ft_strdup(name);
+	if (!(*matches)[*count])
+		return (0);
+	(*count)++;
+	return (1);
+}
+
+static int	read_matches(DIR *dir, const char *pattern, char ***matches,
+		int *count)
+{
+	struct dirent	*entry;
+	int				capacity;
+
+	capacity = GLOB_START_CAP;
+	while (1)
+	{
+		entry = readdir(dir);
+		if (!entry)
+			break ;
+		if (entry->d_name[0] == '.' && pattern[0] != '.')
+			continue ;
+		if (!glob_match_pattern(pattern, entry->d_name))
+			continue ;
+		if (!append_match(matches, count, &capacity, entry->d_name))
+			return (0);
+	}
+	return (1);
 }
 
 char	**expand_glob_pattern(const char *pattern)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	char			**matches;
-	int				count;
-	int				capacity;
-	char			*dir_path;
+	DIR		*dir;
+	char	**matches;
+	int		count;
 
 	if (!contains_glob_chars(pattern))
 		return (NULL);
-	dir_path = ft_strdup(".");
-	if (!dir_path)
-		return (NULL);
-	dir = opendir(dir_path);
+	dir = opendir(".");
 	if (!dir)
-	{
-		free(dir_path);
 		return (NULL);
-	}
-	matches = malloc(sizeof(char *) * 256);
+	matches = malloc(sizeof(char *) * GLOB_START_CAP);
 	if (!matches)
-	{
-		closedir(dir);
-		free(dir_path);
-		return (NULL);
-	}
+		return (closedir(dir), NULL);
 	count = 0;
-	capacity = 256;
-	while ((entry = readdir(dir)) != NULL)
-	{
-		if (entry->d_name[0] == '.' && pattern[0] != '.')
-			continue ;
-		if (match_pattern(entry->d_name, pattern))
-		{
-			if (count >= capacity - 1)
-			{
-				capacity *= 2;
-				matches = realloc(matches, sizeof(char *) * capacity);
-				if (!matches)
-				{
-					closedir(dir);
-					free(dir_path);
-					return (NULL);
-				}
-			}
-			matches[count] = ft_strdup(entry->d_name);
-			if (!matches[count])
-			{
-				closedir(dir);
-				free(dir_path);
-				return (NULL);
-			}
-			count++;
-		}
-	}
+	if (!read_matches(dir, pattern, &matches, &count))
+		return (closedir(dir), free_partial(matches, count), NULL);
 	closedir(dir);
-	free(dir_path);
 	if (count == 0)
-	{
-		free(matches);
-		return (NULL);
-	}
+		return (free(matches), NULL);
 	matches[count] = NULL;
 	return (matches);
 }

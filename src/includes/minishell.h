@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 18:43:36 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 21:32:39 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ int					apply_redir_in(t_redir *redir);
 int					apply_redir_out(t_redir *redir);
 int					apply_heredoc(t_redir *redir, t_global *global);
 int					process_heredoc(t_cmd *cmd, t_global *global);
-void				close_heredoc(t_cmd *cmd);
 int					apply_redirs(t_cmd *cmd);
 char				*handle_delim(char *delim);
 
@@ -246,6 +245,7 @@ void				free_all(t_global *global);
 /* expander*/
 char				*expand_word(const char *src, t_global *global);
 char				**expand_glob_pattern(const char *pattern);
+int					glob_match_pattern(const char *pattern, const char *name);
 int					run_and_or_chain(char *input, t_global *global);
 int					execute_segment(char *segment, t_global *global);
 int					operator_syntax_error(char *op);

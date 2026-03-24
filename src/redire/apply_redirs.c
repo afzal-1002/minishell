@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:51:08 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 22:12:35 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 20:56:38 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	apply_redirs(t_cmd *cmd)
 	while (cur)
 	{
 		status = 0;
-		if (cur->type == T_REDIR_IN)
+		if (cur->type == T_REDIR_IN || cur->type == T_HEREDOC)
 			status = apply_redir_in(cur);
 		else if (cur->type == T_REDIR_OUT || cur->type == T_REDIR_APPEND
 			|| cur->type == T_FD_REDIR_OUT || cur->type == T_FD_REDIR_APPEND)

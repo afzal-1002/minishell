@@ -6,13 +6,11 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 18:44:09 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 20:35:07 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-
 
 char	*append_input_line(char *input, char *line)
 {
@@ -122,16 +120,16 @@ void	init_shell(t_global *global)
 	setup_signals();
 	while (1)
 	{
+		if (g_signal_state == -1)
+		{
+			global->exit_status = 130;
+			g_signal_state = 0;
+		}
 		input = readline("TESTminishell$ ");
 		if (!input)
 		{
 			ft_printf("exit\n");
 			break ;
-		}
-		if (g_signal_state == -1)
-		{
-			global->exit_status = 130;
-			g_signal_state = 0;
 		}
 		input = read_unclosed_quotes(input);
 		if (!input)
