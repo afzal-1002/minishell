@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 17:29:46 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 18:43:36 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,11 +250,11 @@ int					run_and_or_chain(char *input, t_global *global);
 int					execute_segment(char *segment, t_global *global);
 int					operator_syntax_error(char *op);
 char				*trimmed_segment(const char *input, int start, int end);
-int					has_unclosed_quote(const char *input);
 char				*append_input_line(char *input, char *line);
 char				*read_unclosed_quotes(char *input);
 
 /*Handle Quote*/
+int					handle_unclosed_quote(const char *input);
 void				handle_single_quote(char c, int *single_q, int double_q);
 void				handle_double_quote(char c, int single_q, int *double_q);
 int					handle_or_operator(char *input, int *start, int *i,

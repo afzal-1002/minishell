@@ -21,11 +21,13 @@ FT_PRINTF_LIB = $(FT_PRINTF_DIR)/ft_printf.a
 SRC = \
 	src/main.c \
 	src/init/init_shell.c \
-	src/init/handle_quote.c \
-	src/init/handle_and_or_operator.c \
-	src/init/handle_unquoted_block.c \
 	src/init/setup.c \
 	src/init/env_init.c \
+	src/handler/handle_and_or_operator.c \
+	src/handler/handle_unquoted.c \
+	src/handler/handle_unclosed_quote.c\
+	src/handler/handle_double_quote.c\
+	src/handler/handle_single_quote.c\
 	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
 	src/cmd/exec_cmd.c \

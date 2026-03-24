@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:51:19 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 22:01:49 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 19:36:34 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static int	write_heredoc_lines(int write_fd, char *delim, t_global *global)
 			return (-1);
 		}
 		line = readline("> ");
-		if (!line || ft_strncmp(line, delim, ft_strlen(delim) + 1) == 0)
+		setup_signals();
+		if (!line || ft_strncmp(line, delim, ft_strlen(delim) + 1) == 0
+			|| g_signal_state == 2)
 		{
 			free(line);
 			free(delim);
