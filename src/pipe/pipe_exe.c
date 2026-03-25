@@ -6,11 +6,22 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:50:51 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 22:09:39 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 22:18:49 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	handle_fork_error(pid_t pid, t_global *global)
+{
+	if (pid == -1)
+	{
+		global->exit_status = 1;
+		g_signal_state = 0;
+		return (1);
+	}
+	return (0);
+}
 
 void	pipe_exe(t_cmd *cmds, t_global *global)
 {
@@ -30,12 +41,8 @@ void	pipe_exe(t_cmd *cmds, t_global *global)
 			return ;
 		}
 		pid = fork_cmd(current, prev_fd, pipe_fd, global);
-		if (pid == -1)
-		{
-			global->exit_status = 1;
-			g_signal_state = 0;
+		if (handle_fork_error(pid, global))
 			return ;
-		}
 		(void)pid;
 		prev_fd = advance_pipe(prev_fd, pipe_fd, current);
 		current = current->next;

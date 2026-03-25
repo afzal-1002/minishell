@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:10 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 16:47:04 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/25 17:58:27 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	is_numeric(char *s)
 
 int	builtin_exit(t_cmd *cmd, t_global *global)
 {
-	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!cmd->args[1])
 		quit(global);
 	if (cmd->args[2])
@@ -42,6 +41,7 @@ int	builtin_exit(t_cmd *cmd, t_global *global)
 		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
 		global->exit_status = 1;
 		quit(global);
+		return (1);
 	}
 	if (!is_numeric(cmd->args[1]))
 	{
@@ -51,7 +51,7 @@ int	builtin_exit(t_cmd *cmd, t_global *global)
 		global->exit_status = 2;
 		quit(global);
 	}
-	global->exit_status = ft_atoi(cmd->args[0]) % 256;
+	global->exit_status = ft_atoi(cmd->args[1]) % 256;
 	if (global->exit_status < 0)
 		global->exit_status += 256;
 	ft_printf("exit\n");

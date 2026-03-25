@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:37 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 19:36:01 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/24 22:08:49 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,11 @@ char	*build_full_path(char *dir, char *cmd)
 	return (result);
 }
 
-char	*find_command(char *cmd, t_env *env)
+static char	*find_in_dirs(char **dirs, char *cmd)
 {
-	char	*path_val;
-	char	**dirs;
 	char	*full_path;
 	int		i;
 
-	if (!cmd || !cmd[0])
-		return (NULL);
-	if (ft_strchr(cmd, '/'))
-		return (ft_strdup(cmd));
-	path_val = find_path_env(env);
-	if (!path_val)
-		return (NULL);
-	dirs = ft_split(path_val, ':');
-	if (!dirs)
-		return (NULL);
 	i = 0;
 	while (dirs[i])
 	{
@@ -56,4 +44,22 @@ char	*find_command(char *cmd, t_env *env)
 	}
 	free_array(dirs);
 	return (NULL);
+}
+
+char	*find_command(char *cmd, t_env *env)
+{
+	char	*path_val;
+	char	**dirs;
+
+	if (!cmd || !cmd[0])
+		return (NULL);
+	if (ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
+	path_val = find_path_env(env);
+	if (!path_val)
+		return (NULL);
+	dirs = ft_split(path_val, ':');
+	if (!dirs)
+		return (NULL);
+	return (find_in_dirs(dirs, cmd));
 }

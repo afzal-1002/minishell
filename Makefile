@@ -28,6 +28,7 @@ SRC = \
 	src/handler/handle_unclosed_quote.c\
 	src/handler/handle_double_quote.c\
 	src/handler/handle_single_quote.c\
+	src/handler/execute_segment.c\
 	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
 	src/cmd/exec_cmd.c \
@@ -40,8 +41,12 @@ SRC = \
 	src/expander/expand_env_var.c \
 	src/expander/expand_glob.c \
 	src/expander/glob_match.c \
+	src/parser/add_expanded_arg.c \
+	src/parser/check_token.c \
 	src/parser/handle_redirection.c \
+	src/parser/has_quotes.c \
 	src/parser/parse_utilits.c \
+	src/parser/token_error.c \
 	src/parser/append_plain_char.c \
 	src/parser/env_value_or_empty.c \
 	src/parser/handle_pipe.c \
@@ -88,13 +93,16 @@ SRC = \
 	src/redire/create_redir.c \
 	src/redire/is_redirection.c \
 	src/redire/redir_add_back.c \
+	src/redire/prepare_heredoc.c \
+	src/redire/process_heredoc.c \
 	src/redire/redir_new.c \
 	src/signals/signals.c \
 	src/utils/is_blank.c \
 	src/utils/operator_syntax_error.c \
 	src/utils/free_array.c \
 	src/utils/free_all.c \
-	src/init/quit.c
+	src/init/quit.c \
+	src/handler/handle_and_or_operator_utils.c
 
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

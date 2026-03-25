@@ -3,47 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal <mafzal@student.42warsaw.pl>        +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/06                                  #+#    #+#         */
-/*   Updated: 2026/03/24                                  ###   ########.fr   */
+/*   Created: 2026/03/24 21:57:09 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/24 22:32:46 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char		*get_next_line(int fd);
-
-static int	wait_and_prepare_heredoc(pid_t pid, t_redir *redir)
-{
-	int		status;
-	char	*old_file;
-
-	if (waitpid(pid, &status, 0) == -1)
-		return (setup_signals(), -1);
-	setup_signals();
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		g_signal_state = -1;
-		return (-1);
-	}
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-	{
-		g_signal_state = -1;
-		return (-1);
-	}
-	old_file = redir->file;
-	redir->file = ft_strdup(".heredoc_tmp");
-	free(old_file);
-	if (!redir->file)
-		return (-1);
-	return (0);
-}
-
-/*
-** SAFE LINE READER (using read)
-*/
 static char	*read_line_stdin(void)
 {
 	char	buffer[1024];
@@ -66,13 +34,38 @@ static char	*read_line_stdin(void)
 	return (line);
 }
 
-/*
-** HEREDOC WRITER
-*/
+static int	handle_heredoc_eof(char *line)
+{
+	if (!line)
+	{
+		write(1, "warning: heredoc delimited by EOF\n", 34);
+		return (1);
+	}
+	return (0);
+}
+
+static int	expand_and_write_line(int write_fd, char *line, int expand,
+		t_global *global)
+{
+	char	*expanded;
+
+	expanded = line;
+	if (expand)
+	{
+		expanded = expand_word(line, global);
+		if (!expanded)
+			return (-1);
+	}
+	write(write_fd, expanded, ft_strlen(expanded));
+	write(write_fd, "\n", 1);
+	if (expand)
+		free(expanded);
+	return (0);
+}
+
 static int	write_heredoc_lines(int write_fd, char *delim, t_global *global)
 {
 	char	*line;
-	char	*expanded;
 	char	*clean;
 	int		expand;
 
@@ -84,32 +77,17 @@ static int	write_heredoc_lines(int write_fd, char *delim, t_global *global)
 	{
 		write(1, "> ", 2);
 		line = read_line_stdin();
-		if (!line)
-		{
-			write(1, "warning: heredoc delimited by EOF\n", 34);
+		if (handle_heredoc_eof(line))
 			break ;
-		}
 		if (ft_strcmp(line, clean) == 0)
 			break ;
-		expanded = line;
-		if (expand)
-		{
-			expanded = expand_word(line, global);
-			if (!expanded)
-				return (free(clean), -1);
-		}
-		write(write_fd, expanded, ft_strlen(expanded));
-		write(write_fd, "\n", 1);
-		if (expand)
-			free(expanded);
+		if (expand_and_write_line(write_fd, line, expand, global) == -1)
+			return (free(clean), -1);
 	}
 	free(clean);
 	return (0);
 }
 
-/*
-** MAIN HEREDOC FUNCTION
-*/
 int	apply_heredoc(t_redir *redir, t_global *global)
 {
 	int		fd;
@@ -136,29 +114,5 @@ int	apply_heredoc(t_redir *redir, t_global *global)
 		close(fd);
 		exit(0);
 	}
-	return (wait_and_prepare_heredoc(pid, redir));
-}
-
-/*
-** PROCESS ALL HEREDOCS
-*/
-int	process_heredoc(t_cmd *cmd, t_global *global)
-{
-	t_redir *redir;
-
-	while (cmd)
-	{
-		redir = cmd->redirs;
-		while (redir)
-		{
-			if (redir->type == T_HEREDOC)
-			{
-				if (apply_heredoc(redir, global) == -1)
-					return (-1);
-			}
-			redir = redir->next;
-		}
-		cmd = cmd->next;
-	}
-	return (0);
+	return (prepare_heredoc(pid, redir));
 }

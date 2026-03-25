@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:49:46 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/23 21:39:09 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 21:59:03 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ void	print_cmd_not_found(char *name)
 	write(2, ": command not found\n", 20);
 }
 
+static void	handle_cmd_not_found(t_cmd *cmd, char **env)
+{
+	print_cmd_not_found(cmd->args[0]);
+	free_env_arr(env);
+	exit(127);
+}
+
 void	exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
 {
 	char	**env;
@@ -52,11 +59,7 @@ void	exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd, t_global *global)
 	}
 	path = find_command(cmd->args[0], global->env);
 	if (!path)
-	{
-		print_cmd_not_found(cmd->args[0]);
-		free_env_arr(env);
-		exit(127);
-	}
+		handle_cmd_not_found(cmd, env);
 	execve(path, cmd->args, env);
 	perror(path);
 	free(path);

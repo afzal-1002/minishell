@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_glob.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 16:00:00 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 19:55:51 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/25 18:36:55 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <dirent.h>
-
-#define GLOB_START_CAP 32
 
 static int	contains_glob_chars(const char *str)
 {
@@ -71,7 +68,7 @@ static int	read_matches(DIR *dir, const char *pattern, char ***matches,
 	struct dirent	*entry;
 	int				capacity;
 
-	capacity = GLOB_START_CAP;
+	capacity = 32;
 	while (1)
 	{
 		entry = readdir(dir);
@@ -98,7 +95,7 @@ char	**expand_glob_pattern(const char *pattern)
 	dir = opendir(".");
 	if (!dir)
 		return (NULL);
-	matches = malloc(sizeof(char *) * GLOB_START_CAP);
+	matches = malloc(sizeof(char *) * 32);
 	if (!matches)
 		return (closedir(dir), NULL);
 	count = 0;

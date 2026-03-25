@@ -6,11 +6,23 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 16:48:15 by mgolasze          #+#    #+#             */
-/*   Updated: 2026/03/24 20:29:31 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/24 22:17:35 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	exec_single_builtin(t_cmd *cmds, t_global *global, int saved_stdin)
+{
+	if (!cmds->next && cmds->args && cmds->args[0] && is_builtin(cmds->args[0]))
+	{
+		global->exit_status = run_builtin_with_redirs(cmds, global);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdin);
+		return (1);
+	}
+	return (0);
+}
 
 int	execute(t_cmd *cmds, t_global *global)
 {
@@ -32,13 +44,8 @@ int	execute(t_cmd *cmds, t_global *global)
 		close(saved_stdin);
 		return (0);
 	}
-	if (!cmds->next && cmds->args && cmds->args[0] && is_builtin(cmds->args[0]))
-	{
-		global->exit_status = run_builtin_with_redirs(cmds, global);
-		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdin);
+	if (exec_single_builtin(cmds, global, saved_stdin))
 		return (global->exit_status);
-	}
 	pipe_exe(cmds, global);
 	setup_signals();
 	dup2(saved_stdin, STDIN_FILENO);
