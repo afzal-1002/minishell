@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/25 18:39:04 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/26 20:42:06 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,5 +270,6 @@ int					execute_segment(char *segment, t_global *global);
 /*Handle and or operators utils*/
 int					run_chain_last_segment(char *input, t_parse_state *state,
 						t_global *global);
+void				free_heredoc(char *line, char *clean);
 
 #endif

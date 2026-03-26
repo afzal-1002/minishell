@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 21:57:09 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 22:32:46 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/26 20:42:08 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ static int	write_heredoc_lines(int write_fd, char *delim, t_global *global)
 		if (ft_strcmp(line, clean) == 0)
 			break ;
 		if (expand_and_write_line(write_fd, line, expand, global) == -1)
-			return (free(clean), -1);
+			return (free_heredoc(line, clean), -1);
 	}
-	free(clean);
+	free_heredoc(line, clean);
 	return (0);
 }
 
