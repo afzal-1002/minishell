@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   expand_and_write_line.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 23:24:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
+/*   Created: 2026/03/26 21:23:28 by mafzal            #+#    #+#             */
+/*   Updated: 2026/03/26 21:25:10 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	expand_and_write_line(int write_fd, char *line, int expand,
+		t_global *global)
 {
-	t_global	global;
+	char	*expanded;
 
-	(void)argc;
-	(void)argv;
-	createglobal(&global, envp);
-	init_shell(&global);
-	clear_history();
-	free_all(&global);
-	return (global.exit_status);
+	expanded = line;
+	if (expand)
+	{
+		expanded = expand_word(line, global);
+		if (!expanded)
+			return (-1);
+	}
+	write(write_fd, expanded, ft_strlen(expanded));
+	write(write_fd, "\n", 1);
+	if (expand)
+		free(expanded);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 18:41:32 by mgolasze          #+#    #+#             */
-/*   Updated: 2026/03/26 20:42:07 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 16:45:40 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,4 @@ char	*handle_delim(char *delim)
 	}
 	newdelim[j] = '\0';
 	return (newdelim);
-}
-
-void free_heredoc(char *line, char *clean)
-{
-	free(line);
-	free(clean);
 }

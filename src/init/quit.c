@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 09:51:58 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/17 14:28:47 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	quit(t_global *global)
 {
 	int	exit_status;
 
-	exit_status = global -> exit_status;
+	exit_status = global->exit_status;
+	clear_history();
 	free_all(global);
 	exit(exit_status);
 }

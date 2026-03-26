@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/24 21:54:10 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static int	execute_plain_segment(char *segment, t_global *global)
 	t_token	*tokens;
 	t_cmd	*parsed_cmd;
 
+	global->tokens = NULL;
+	global->cmds = NULL;
 	tokens = tokenize(segment);
 	if (!tokens)
 		return (0);
@@ -53,12 +55,15 @@ static int	execute_plain_segment(char *segment, t_global *global)
 	if (!parsed_cmd)
 	{
 		free_tokens(tokens);
+		global->tokens = NULL;
 		return (0);
 	}
 	global->cmds = parsed_cmd;
 	execute(parsed_cmd, global);
 	free_tokens(tokens);
 	free_cmd(parsed_cmd);
+	global->tokens = NULL;
+	global->cmds = NULL;
 	return (1);
 }
 

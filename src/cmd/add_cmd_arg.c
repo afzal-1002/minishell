@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:48 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:26:19 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/23 18:48:29 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void	add_cmd_arg(t_cmd *cmd, char *value)
 		i++;
 	new_args = malloc(sizeof(char *) * (i + 2));
 	if (!new_args)
-	{
-		free_cmd(cmd);
 		return ;
-	}
 	i = 0;
 	while (cmd->args && cmd->args[i])
 	{

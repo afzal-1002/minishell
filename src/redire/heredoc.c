@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 21:57:09 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:42:08 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/26 21:23:36 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,11 @@ static int	handle_heredoc_eof(char *line)
 	return (0);
 }
 
-static int	expand_and_write_line(int write_fd, char *line, int expand,
-		t_global *global)
+static int	handle_write_error(char *line, char *clean)
 {
-	char	*expanded;
-
-	expanded = line;
-	if (expand)
-	{
-		expanded = expand_word(line, global);
-		if (!expanded)
-			return (-1);
-	}
-	write(write_fd, expanded, ft_strlen(expanded));
-	write(write_fd, "\n", 1);
-	if (expand)
-		free(expanded);
-	return (0);
+	free(line);
+	free(clean);
+	return (-1);
 }
 
 static int	write_heredoc_lines(int write_fd, char *delim, t_global *global)
@@ -80,11 +68,15 @@ static int	write_heredoc_lines(int write_fd, char *delim, t_global *global)
 		if (handle_heredoc_eof(line))
 			break ;
 		if (ft_strcmp(line, clean) == 0)
+		{
+			free(line);
 			break ;
+		}
 		if (expand_and_write_line(write_fd, line, expand, global) == -1)
-			return (free_heredoc(line, clean), -1);
+			return (handle_write_error(line, clean));
+		free(line);
 	}
-	free_heredoc(line, clean);
+	free(clean);
 	return (0);
 }
 

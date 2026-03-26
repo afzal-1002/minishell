@@ -96,6 +96,7 @@ SRC = \
 	src/redire/prepare_heredoc.c \
 	src/redire/process_heredoc.c \
 	src/redire/redir_new.c \
+	src/redire/expand_and_write_line.c \
 	src/signals/signals.c \
 	src/utils/is_blank.c \
 	src/utils/operator_syntax_error.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:42:06 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/26 21:24:10 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@
 #  define PATH_MAX 4096
 # endif
 
-#define PROMPT "\001\033[1;36m\002[minishell]\001\033[0m\002$ "
+# define PROMPT "\001\033[1;36m\002[minishell]\001\033[0m\002$ "
 
 # include "../../utils/ft_printf/ft_printf.h"
 # include "../../utils/libft/libft.h"
 # include <ctype.h>
+# include <dirent.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
@@ -35,7 +36,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <dirent.h>
 
 extern int			g_signal_state;
 
@@ -90,6 +90,7 @@ typedef struct s_global
 	t_cmd			*cmds;
 	t_token			*tokens;
 	int				exit_status;
+	int				should_exit;
 }					t_global;
 
 typedef struct s_expander
@@ -270,6 +271,7 @@ int					execute_segment(char *segment, t_global *global);
 /*Handle and or operators utils*/
 int					run_chain_last_segment(char *input, t_parse_state *state,
 						t_global *global);
-void				free_heredoc(char *line, char *clean);
+int					expand_and_write_line(int write_fd, char *line, int expand,
+						t_global *global);
 
 #endif

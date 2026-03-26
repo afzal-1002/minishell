@@ -6,7 +6,7 @@
 /*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 16:48:15 by mgolasze          #+#    #+#             */
-/*   Updated: 2026/03/24 22:17:35 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/26 20:38:36 by mafzal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static int	exec_single_builtin(t_cmd *cmds, t_global *global, int saved_stdin)
 {
+	int	ret;
+
 	if (!cmds->next && cmds->args && cmds->args[0] && is_builtin(cmds->args[0]))
 	{
-		global->exit_status = run_builtin_with_redirs(cmds, global);
-		dup2(saved_stdin, STDIN_FILENO);
 		close(saved_stdin);
+		ret = run_builtin_with_redirs(cmds, global);
+		if (ret != -1)
+			global->exit_status = ret;
 		return (1);
 	}
 	return (0);
