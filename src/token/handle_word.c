@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:23:55 by mafzal            #+#    #+#             */
-/*   Updated: 2026/02/23 00:12:24 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/28 20:44:21 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	handle_word(char *input, int i, t_token **head)
 	if (!new)
 	{
 		free(value);
-    	return (i);
+		return (i);
 	}
 	add_token_back(head, new);
 	return (i);

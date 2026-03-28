@@ -6,7 +6,7 @@
 /*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 14:40:15 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/28 19:41:22 by mgolasze         ###   ########.fr       */
+/*   Updated: 2026/03/28 20:39:49 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,5 +277,5 @@ void				exec_path(t_cmd *cmd, char **env, t_global *global);
 void				child_exit(t_global *global, char **env, int code);
 void				exec_child(t_cmd *cmd, int prev_fd, int *pipe_fd,
 						t_global *global);
-						
+
 #endif
