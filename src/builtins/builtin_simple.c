@@ -19,10 +19,13 @@ int	builtin_env(t_global *global)
 	cur = global->env;
 	while (cur)
 	{
-		ft_putstr_fd(cur->key, STDOUT_FILENO);
-		ft_putchar_fd('=', STDOUT_FILENO);
-		ft_putstr_fd(cur->value, STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		if (cur->value)
+		{
+			ft_putstr_fd(cur->key, STDOUT_FILENO);
+			ft_putchar_fd('=', STDOUT_FILENO);
+			ft_putstr_fd(cur->value, STDOUT_FILENO);
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		}
 		cur = cur->next;
 	}
 	return (0);

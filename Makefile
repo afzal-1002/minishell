@@ -20,36 +20,75 @@ FT_PRINTF_LIB = $(FT_PRINTF_DIR)/ft_printf.a
 
 SRC = \
 	src/main.c \
-	src/init/init_shell.c \
-	src/init/setup.c \
-	src/init/env_init.c \
-	src/handler/handle_and_or_operator.c \
-	src/handler/handle_unquoted.c \
-	src/handler/handle_unclosed_quote.c\
-	src/handler/handle_double_quote.c\
-	src/handler/handle_single_quote.c\
-	src/handler/execute_segment.c\
+	src/builtins/builtin_cd.c \
+	src/builtins/builtin_dispatch.c \
+	src/builtins/builtin_echo.c \
+	src/builtins/builtin_exit.c \
+	src/builtins/builtin_export.c \
+	src/builtins/builtin_simple.c \
 	src/cmd/add_cmd_arg.c \
 	src/cmd/create_cmd.c \
 	src/cmd/exec_cmd.c \
 	src/cmd/find_cmd.c \
 	src/cmd/fork_cmd.c \
 	src/cmd/free_cmd.c \
-	src/parser/parse_token.c \
-	src/expander/expand_word.c \
-	src/expander/expand_utils.c \
+	src/env/env_append.c \
+	src/env/env_find.c \
+	src/env/env_join_kv.c \
+	src/env/env_list_len.c \
+	src/env/env_new_node.c \
+	src/env/env_remove.c \
+	src/env/env_set.c \
+	src/env/env_update.c \
+	src/env/find_path_env.c \
+	src/env/free_env.c \
+	src/env/free_env_arr.c \
+	src/env/is_valid_identifier.c \
+	src/env/rebuild_env.c \
+	src/execution/execute.c \
+	src/execution/wait_for_children.c \
 	src/expander/expand_env_var.c \
 	src/expander/expand_glob.c \
+	src/expander/expand_utils.c \
+	src/expander/expand_word.c \
 	src/expander/glob_match.c \
+	src/handler/execute_segment.c \
+	src/handler/handle_and_or_operator.c \
+	src/handler/handle_and_or_operator_utils.c \
+	src/handler/handle_double_quote.c \
+	src/handler/handle_single_quote.c \
+	src/handler/handle_unclosed_quote.c \
+	src/handler/handle_unquoted.c \
+	src/init/env_init.c \
+	src/init/init_shell.c \
+	src/init/quit.c \
+	src/init/setup.c \
 	src/parser/add_expanded_arg.c \
-	src/parser/check_token.c \
-	src/parser/handle_redirection.c \
-	src/parser/has_quotes.c \
-	src/parser/parse_utilits.c \
-	src/parser/token_error.c \
 	src/parser/append_plain_char.c \
+	src/parser/check_token.c \
 	src/parser/env_value_or_empty.c \
 	src/parser/handle_pipe.c \
+	src/parser/handle_redirection.c \
+	src/parser/has_quotes.c \
+	src/parser/parse_token.c \
+	src/parser/parse_utilits.c \
+	src/parser/token_error.c \
+	src/pipe/advance_pipe.c \
+	src/pipe/open_pipe.c \
+	src/pipe/pipe_exe.c \
+	src/redire/apply_redir_in.c \
+	src/redire/apply_redir_out.c \
+	src/redire/apply_redirs.c \
+	src/redire/create_redir.c \
+	src/redire/expand_and_write_line.c \
+	src/redire/heredoc.c \
+	src/redire/heredoc_utils.c \
+	src/redire/is_redirection.c \
+	src/redire/prepare_heredoc.c \
+	src/redire/process_heredoc.c \
+	src/redire/redir_add_back.c \
+	src/redire/redir_new.c \
+	src/signals/signals.c \
 	src/token/add_token_back.c \
 	src/token/free_tokens.c \
 	src/token/get_operator_type.c \
@@ -61,49 +100,11 @@ SRC = \
 	src/token/print_tokens.c \
 	src/token/skip_spaces.c \
 	src/token/tokenizer.c \
-	src/builtins/builtin_cd.c \
-	src/builtins/builtin_dispatch.c \
-	src/builtins/builtin_echo.c \
-	src/builtins/builtin_exit.c \
-	src/builtins/builtin_export.c \
-	src/builtins/builtin_simple.c \
-	src/env/env_append.c \
-	src/env/env_find.c \
-	src/env/env_join_kv.c \
-	src/env/env_list_len.c \
-	src/env/env_new_node.c \
-	src/env/env_remove.c \
-	src/env/env_set.c \
-	src/env/env_update.c \
-	src/env/is_valid_identifier.c \
-	src/env/find_path_env.c \
-	src/env/free_env_arr.c \
-	src/env/rebuild_env.c \
-	src/env/free_env.c \
-	src/execution/wait_for_children.c \
-	src/execution/execute.c \
-	src/pipe/advance_pipe.c \
-	src/pipe/open_pipe.c \
-	src/pipe/pipe_exe.c \
-	src/redire/apply_redir_in.c \
-	src/redire/apply_redir_out.c \
-	src/redire/apply_redirs.c \
-	src/redire/heredoc.c \
-	src/redire/heredoc_utils.c \
-	src/redire/create_redir.c \
-	src/redire/is_redirection.c \
-	src/redire/redir_add_back.c \
-	src/redire/prepare_heredoc.c \
-	src/redire/process_heredoc.c \
-	src/redire/redir_new.c \
-	src/redire/expand_and_write_line.c \
-	src/signals/signals.c \
+	src/utils/free_all.c \
+	src/utils/free_array.c \
 	src/utils/is_blank.c \
 	src/utils/operator_syntax_error.c \
-	src/utils/free_array.c \
-	src/utils/free_all.c \
-	src/init/quit.c \
-	src/handler/handle_and_or_operator_utils.c
+	src/utils/read_line_stdin.c
 
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

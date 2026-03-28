@@ -39,7 +39,6 @@ static int	exit_numeric_error(char *arg, t_global *global)
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 	global->exit_status = 2;
 	global->should_exit = 1;
-	ft_printf("exit\n");
 	return (-1);
 }
 

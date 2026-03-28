@@ -69,8 +69,7 @@ int	export_one(char *arg, t_global *global)
 		free(key);
 		return (1);
 	}
-	if (value)
-		env_set(global, key, value);
+	env_set(global, key, value);
 	free(key);
 	return (0);
 }

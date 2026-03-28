@@ -14,7 +14,7 @@
 
 static void	free_ret(char **ret, int i)
 {
-	while (i > 0)
+	while (i >= 0)
 	{
 		free(ret[i]);
 		i--;

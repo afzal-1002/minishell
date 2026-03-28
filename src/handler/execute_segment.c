@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_segment.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 20:36:26 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/28 20:21:02 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,28 @@ static int	find_group_end(char *segment, int start)
 	return (-1);
 }
 
+static void	free_cmd_and_tokens(t_global *global)
+{
+	free_tokens(global->tokens);
+	global->tokens = NULL;
+	free_cmd(global->cmds);
+	global->cmds = NULL;
+}
+
 static int	execute_plain_segment(char *segment, t_global *global)
 {
-	t_token	*tokens;
-	t_cmd	*parsed_cmd;
-
-	global->tokens = NULL;
-	global->cmds = NULL;
-	tokens = tokenize(segment);
-	if (!tokens)
+	free_cmd_and_tokens(global);
+	global->tokens = tokenize(segment);
+	if (!global->tokens)
 		return (0);
-	global->tokens = tokens;
-	parsed_cmd = parse_token(tokens, global);
-	if (!parsed_cmd)
+	global->cmds = parse_token(global->tokens, global);
+	if (!global->cmds)
 	{
-		free_tokens(tokens);
-		global->tokens = NULL;
+		free_cmd_and_tokens(global);
 		return (0);
 	}
-	global->cmds = parsed_cmd;
-	execute(parsed_cmd, global);
-	free_tokens(tokens);
-	free_cmd(parsed_cmd);
-	global->tokens = NULL;
-	global->cmds = NULL;
+	execute(global->cmds, global);
+	free_cmd_and_tokens(global);
 	return (1);
 }
 

@@ -1,57 +1,12 @@
-*This project has been created as part of the 42 curriculum by mafzal | mgolasze*
-
-## Description
-This project implements a custom Unix-like shell (`minishell`) as part of the 42 curriculum.
-It recreates core Bash behavior for command parsing and execution, including pipes, redirections,
-heredoc, environment expansion, logical operators, and builtins.
-
-## Instructions
-### Compilation
-From the project root:
-
-```bash
-make
-```
-
-Clean rebuild:
-
-```bash
-make re
-```
-
-Full clean:
-
-```bash
-make fclean
-```
-
-### Execution
-Run the shell with:
-
-```bash
+This project has been created as part of the 42 curriculum by mafzal and mgolasze
+Description
+The purpose of this project is to recreate Bash behavious in most of the cases
+Instruction
+Inside the folder:
+Make/make re
 ./minishell
-```
-
-### Useful checks
-Strict Valgrind check for real leaks:
-
-```bash
-valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --errors-for-leak-kinds=definite,indirect,possible --track-origins=yes ./minishell
-```
-
-## Resources
-- Official GNU Bash reference: https://www.gnu.org/software/bash/manual/
-- Linux man pages: https://man7.org/linux/man-pages/
-- Readline documentation: https://tiswww.case.edu/php/chet/readline/rltop.html
-- 42 minishell references and peer materials from the cursus
-- https://www.youtube.com/results?search_query=codevault
-- https://www.youtube.com/@onaecO
-- https://www.youtube.com/@LearnLinuxTV
-
-### AI usage
-AI tools were used as assistant support for:
-- Clarifying edge cases in parsing/execution behavior
-- Reviewing and explaining Valgrind output
-- Suggesting debugging workflow and leak-check commands
-
-All implementation choices, integration, and final validation were performed and verified in this project codebase.
+Have fun!
+Resources:
+https://www.youtube.com/results?search_query=codevault
+https://www.youtube.com/@onaecO
+https://www.youtube.com/@LearnLinuxTV

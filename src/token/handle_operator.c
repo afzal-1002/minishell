@@ -33,6 +33,11 @@ int	handle_operator(char *input, int i, t_token **head)
 		len = 1;
 	value = ft_substr(input, i, len);
 	new = new_token(value, type);
+	if (!new)
+	{
+    	free(value);
+    	return (i + len);
+	}
 	add_token_back(head, new);
 	return (i + len);
 }

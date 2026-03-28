@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mafzal < mafzal@student.42warsaw.pl>       +#+  +:+       +#+        */
+/*   By: mgolasze <mgolasze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 23:24:38 by mafzal            #+#    #+#             */
-/*   Updated: 2026/03/26 21:21:18 by mafzal           ###   ########.fr       */
+/*   Updated: 2026/03/28 19:40:33 by mgolasze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,6 @@ char	*append_input_line(char *input, char *line)
 	return (joined);
 }
 
-static int	check_input(char *input)
-{
-	if (!input)
-	{
-		ft_printf("exit\n");
-		return (1);
-	}
-	return (0);
-}
-
 static int	handle_shell_input(char *input, t_global *global)
 {
 	if (!input)
@@ -49,25 +39,43 @@ static int	handle_shell_input(char *input, t_global *global)
 	return (1);
 }
 
+static int	check_input(char *input)
+{
+	if (!input)
+		return (ft_printf("exit\n"), 1);
+	return (0);
+}
+
+static void	handle_signal_state(t_global *global)
+{
+	if (g_signal_state == -1)
+	{
+		global->exit_status = 130;
+		g_signal_state = 0;
+	}
+}
+
 void	init_shell(t_global *global)
 {
 	char	*input;
 
 	setup_signals();
+	global->input = NULL;
 	while (1)
 	{
-		if (g_signal_state == -1)
-		{
-			global->exit_status = 130;
-			g_signal_state = 0;
-		}
+		handle_signal_state(global);
 		input = readline(PROMPT);
 		if (check_input(input))
 			break ;
-		input = read_unclosed_quotes(input);
-		if (!handle_shell_input(input, global))
+		global->input = read_unclosed_quotes(input);
+		if (!handle_shell_input(global->input, global))
+		{
+			free(global->input);
+			global->input = NULL;
 			continue ;
-		free(input);
+		}
+		free(global->input);
+		global->input = NULL;
 		if (global->should_exit)
 			break ;
 	}
