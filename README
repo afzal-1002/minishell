@@ -1,12 +1,30 @@
-This project has been created as part of the 42 curriculum by mafzal and mgolasze
+Minishell
+
+This project was created as part of the 42 curriculum by mafzal and mgolasze.
+
 Description
-The purpose of this project is to recreate Bash behavious in most of the cases
-Instruction
-Inside the folder:
-Make/make re
-./minishell
-Have fun!
-Resources:
-https://www.youtube.com/results?search_query=codevault
-https://www.youtube.com/@onaecO
-https://www.youtube.com/@LearnLinuxTV
+
+The goal of this project is to recreate Bash behavior in most common cases.
+
+Instructions
+
+1. Open a terminal in the project root.
+2. Build the project:
+	make
+	or
+	make re
+3. Start minishell:
+	./minishell
+
+Useful Make targets
+
+- make: Build the project.
+- make re: Rebuild from scratch.
+- make clean: Remove object files.
+- make fclean: Remove object files and executable.
+
+Resources
+
+- https://www.youtube.com/results?search_query=codevault
+- https://www.youtube.com/@onaecO
+- https://www.youtube.com/@LearnLinuxTV
